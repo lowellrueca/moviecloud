@@ -1,0 +1,140 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+    font-size: inherit;
+    padding: 8px;
+}
+
+input {
+    font-size: .75rem;
+    line-height: 1.5rem;
+    padding: 4px 8px;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 4rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    line-height: 3rem;
+}
+
+h3 {
+    font-size: 1.17rem;
+    line-height: 2.34rem;
+}
+
+h4 {
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+h5 {
+    font-size: .83rem;
+    line-height: 1.66rem;
+}
+
+h6 {
+    font-size: .67rem;
+    line-height: 1.34rem;
+}
+
+ul {
+    list-style: none;
+}
+
+a, p, span {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+body, html {
+    height: 100%;
+}
+
+/* header style definition
+*/
+header {
+    position: fixed;
+    top: 0%;
+}
+
+main {
+    padding: 120px 0px 100px 0px;
+    min-height: calc(100vh - 100px);
+}
+
+footer {
+    bottom: 0%;
+    margin-top: 100px;
+}
+
+header, footer {
+    height: 100px;
+}
+
+body, header, main, footer {
+    width: 100%;
+}
+
+/*
+/* flex display definition
+*/
+
+.wrap {
+    width: 80%;
+    margin: auto;
+}
+
+.wrap-flex {
+    display: flex;
+}
+
+.wrap-col {
+    flex-direction: column;
+}
+
+.wrap-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.wrap-baseline {
+    align-items: baseline;
+}
+
+.wrap-flex-end {
+    justify-content: flex-end;
+}
+
+.flex-basis-50 {
+    flex-basis: 50%;
+}
+
+/*
+/* navigation style definitions
+*/
+
+.nav-item {
+    padding: 4px 8px;
+    margin: 4px 8px;
+}
+
+.nav-item-accent {
+    border-radius: 4px;
+    border: 1px solid grey;
+}

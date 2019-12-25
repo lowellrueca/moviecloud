@@ -1,0 +1,10 @@
+{% set title = 'Error 500' %}
+{% set content = ': Internal Server Error' %}
+{% set message = 'The administrator has been modified, Sorry for inconvenience' %}
+{% extends 'base.html' %}
+{% block main %}
+<div>
+    <h1>{{ title }}{{ content }}</h1>
+    <p>{{ message }}</p>
+</div>
+{% endblock main %}

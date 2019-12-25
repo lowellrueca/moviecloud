@@ -1,0 +1,7 @@
+.appenv
+.env
+.vscode
+__pycache__
+alembic.ini
+moviecloudproj.code-workspace
+scratch.py

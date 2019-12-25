@@ -1,0 +1,14 @@
+{% set title = 'Login' %}
+{% extends 'base.html' %}
+{% block main %}
+<form action="{{ url_for('home') }}" method="POST" enctype="application/x-www-form-urlencoded">
+    <h3>Please Login!!!</h3>
+    <label for="email">Email</label>
+    <input type="email" name="email" placeholder="Enter Email..." required>
+    <label for="password">Password</label>
+    <input type="password" name="password" placeholder="Enter Password..." required>
+    <input type="submit" value="Submit">
+    <input type="hidden" name="csrfToken" value="{{ request.cookies['session'] }}">
+    <p>Or Don't Have An Account Yet? Please <a href="{{ url_for('register') }}">Register</a></p>
+</form>
+{% endblock main %}
