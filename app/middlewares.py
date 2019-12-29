@@ -8,15 +8,22 @@ from starlette.authentication import AuthenticationBackend, AuthenticationError,
     SimpleUser, UnauthenticatedUser, AuthCredentials
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response
+from starlette.responses import Response, RedirectResponse
+from app.views import template, template_env
 
 
-class TestMiddleware(BaseHTTPMiddleware):
+class AntiCSRFMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        form = await request.form()
         response: Response = await call_next(request)
-        print(form)
-        print(type(form))
-        print(request.cookies)
-        print(request.session)
+        
+        form = await request.form()
+        if len(form) != 0 and 'Request-Verification-Token' in request.cookies:
+            anti_csrf_field = form.get('anti-csrf-field')
+            verification_token = request.cookies['Request-Verification-Token']
+            
+            if anti_csrf_field != verification_token:
+                page = template_env.get_template('error_403.html')
+                context = {'request': request}
+                return template.TemplateResponse(page, context=context)
+
         return response
