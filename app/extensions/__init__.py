@@ -2,8 +2,7 @@
 This module serves as the application extension which provide utility and helper classes and functions.
 """
 
-import random
-import string
+import secrets
 from hashlib import blake2s
 
 
@@ -24,8 +23,4 @@ class HashBuilder:
         This function generates hashed strings
         for generating token values
         """
-        # Ascii letters
-        letters = string.ascii_letters
-        # rl stands for random letters
-        rl = ''.join(random.choice(letters) for i in range(8))
-        return self.generate_hash(rl)
+        return secrets.token_urlsafe(64)
