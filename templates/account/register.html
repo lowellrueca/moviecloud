@@ -5,29 +5,27 @@
     <h3>Create an Account</h3>
     <hr>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="firstName">First Name</label>
-        <input class="form-input" type="text" placeholder="Enter First Name..." name="firstName" required>
+        <input class="form-input" type="text" placeholder="Your First Name*" name="firstName" required>
     </div>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="lastName">Last Name</label>
-        <input class="form-input" type="text" placeholder="Enter Last Name..." name="lastName" required>
+        <input class="form-input" type="text" placeholder="Your Last Name*" name="lastName" required>
     </div>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="email">Email</label>
-        <input class="form-input" type="email" placeholder="Enter Email..." name="email" required>
+        <input class="form-input" type="email" placeholder="Your Email*" name="email" required>
     </div>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="password">Password</label>
-        <input class="form-input" type="password" placeholder="Enter Password..." name="password" required>
+        <input class="form-input" type="password" placeholder="Enter Your Password*" name="password" required>
     </div>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="confirmPassword">Confirm Password</label>
-        <input class="form-input" type="password" placeholder="Confirm Password..." name="confirmPassword" required>
+        <input class="form-input" type="password" placeholder="Confirm Your Password*" name="confirmPassword" required>
     </div>
     <hr>
-    <div class="wrap-flex wrap-col form-row-bot">
-        <input class="form-input" type="submit" value="Register">
-        <p class="form-options">Already Have An Account? Go to <a href="{{ url_for('login') }}">Login</a> </p>
+    <div class="wrap-flex wrap-row form-row-bottom">
+        <input class="form-button" type="submit" value="Register">
+    </div>
+    <div class="wrap-flex wrap-col">
+        <small class="form-options">By clicking register, you agree on our <a href="#">terms and conditions.</a></small>
+        <p class="form-options">Already Have An Account? <a href="{{ url_for('login') }}">Login here</a></p>
     </div>
 </form>
 {% endblock main %}

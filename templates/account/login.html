@@ -5,17 +5,18 @@
     <h3>Please Login</h3>
     <hr>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="email">Email</label>
-        <input class="form-input" type="email" name="email" placeholder="Enter Email..." required>
+        <input class="form-input" type="email" name="email" placeholder="Your Email*" required>
     </div>
     <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <label for="password">Password</label>
-        <input class="form-input" type="password" name="password" placeholder="Enter Password..." required>
+        <input class="form-input" type="password" name="password" placeholder="Your Password*" required>
     </div>
     <hr>
-    <div class="wrap-flex wrap-col form-row-bot">
-        <input class="form-input" type="submit" value="Login">
-        <p class="form-options">Or Don't Have An Account Yet? Please <a href="{{ url_for('register') }}">Register</a></p>
+    <div class="wrap-flex wrap-row form-row-bottom">
+        <input class="form-button" type="submit" value="Login">
+    </div>
+    <div class="wrap-flex wrap-col">
+        <small class="form-options"><a href="#">Forgot Password?</a></small>
+        <p class="form-options">Or Don't Have An Account Yet? <a href="{{ url_for('register') }}">Register here</a></p>
     </div>
 </form>
 {% endblock main %}

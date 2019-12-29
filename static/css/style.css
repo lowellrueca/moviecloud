@@ -189,6 +189,14 @@ hr{
     padding: 24px;
 }
 
+.form-button {
+    border: 1px solid grey;
+    border-radius: 8px;
+    margin: 8px 0px 8px 12px;
+    padding: 8px 16px;
+    width: 128px;
+}
+
 .form-input {
     border: 1px solid grey;
     border-radius: 8px;
@@ -199,11 +207,12 @@ hr{
 
 .form-row {
     margin: 8px 0px;
+    justify-content: center;
 }
 
-.form-row-bot {
-    margin: auto;
-    justify-content: center;
+.form-row-bottom {
+    justify-content: space-around;
+    margin-bottom: 8px;
 }
 
 .form-options {
