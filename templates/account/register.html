@@ -1,31 +1,17 @@
 {% set title = 'Register' %}
 {% extends 'base.html' %}
 {% block main %}
-<form class="form wrap-flex wrap-col" action="" method="POST" enctype="application/x-www-form-urlencoded">
+<form class="flex-wrapper flex-wrapper-col form-wrapper" action="" method="POST" enctype="application/x-www-form-urlencoded">
     <h3>Create an Account</h3>
     <hr>
-    <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <input class="form-input" type="text" placeholder="Your First Name*" name="firstName" required>
-    </div>
-    <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <input class="form-input" type="text" placeholder="Your Last Name*" name="lastName" required>
-    </div>
-    <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <input class="form-input" type="email" placeholder="Your Email*" name="email" required>
-    </div>
-    <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <input class="form-input" type="password" placeholder="Enter Your Password*" name="password" required>
-    </div>
-    <div class="wrap-flex wrap-row wrap-flex-end form-row">
-        <input class="form-input" type="password" placeholder="Confirm Your Password*" name="confirmPassword" required>
-    </div>
+    <input class="form-input-generic" type="text" placeholder="Your First Name*" name="firstName" required>
+    <input class="form-input-generic" type="text" placeholder="Your Last Name*" name="lastName" required>
+    <input class="form-input-generic" type="email" placeholder="Your Email*" name="email" required>
+    <input class="form-input-generic" type="password" placeholder="Enter Your Password*" name="password" required>
+    <input class="form-input-generic" type="password" placeholder="Confirm Your Password*" name="confirmPassword" required>
     <hr>
-    <div class="wrap-flex wrap-row form-row-bottom">
-        <input class="form-button" type="submit" value="Register">
-    </div>
-    <div class="wrap-flex wrap-col">
-        <small class="form-options">By clicking register, you agree on our <a href="#">terms and conditions.</a></small>
-        <p class="form-options">Already Have An Account? <a href="{{ url_for('login') }}">Login here</a></p>
-    </div>
+    <input class="form-input-generic" type="submit" value="Register">
+    <small class="form-text">By clicking register, you agree on our <a href="#">terms and conditions.</a></small class="form-text">
+    <p class="form-text">Already Have An Account? <a href="{{ url_for('login') }}">Login here</a></p>
 </form>
 {% endblock main %}

@@ -1,0 +1,176 @@
+/*
+/* default style definitions
+*/
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+button {
+    font-size: inherit;
+}
+input {
+    font-size: .75rem;
+    line-height: 1.5rem;
+}
+h1 {
+    font-size: 2rem;
+    line-height: 4rem;
+}
+h2 {
+    font-size: 1.5rem;
+    line-height: 3rem;
+}
+h3 {
+    font-size: 1.17rem;
+    line-height: 2.34rem;
+}
+h4 {
+    font-size: 1rem;
+    line-height: 2rem;
+}
+h5 {
+    font-size: .83rem;
+    line-height: 1.66rem;
+}
+h6 {
+    font-size: .67rem;
+    line-height: 1.34rem;
+}
+ul {
+    list-style: none;
+}
+a, p, span {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+body, html {
+    height: 100%;
+}
+
+/*
+/* root variables
+*/
+:root {
+    --full-width: 100%;
+    --header-footer-ht: 100px;
+    --display-flex: flex;
+}
+
+/* 
+/* base style definition
+*/
+body {
+    width: var(--full-width);
+}
+header {
+    position: fixed;
+    top: 0%;
+    width: var(--full-width);
+    height: var(--header-footer-ht);
+}
+main {
+    padding: 120px 0px 100px 0px;
+    min-height: calc(100vh - 100px);
+    width: var(--full-width);
+}
+footer {
+    bottom: 0%;
+    margin-top: 100px;
+    width: var(--full-width);
+    height: var(--header-footer-ht);
+}
+hr{
+    border: 0;
+    background: black;
+    height: 1px;
+    margin: 24px 0px;
+}
+
+/*
+/* custom layout definitions
+*/
+.indent-wrapper {
+    margin: auto;
+    width: 80%;
+}
+.header-wrapper {
+    position: relative;
+    transform: translateY(50%);
+}
+
+/*
+/* generic layout definition
+*/
+.flex-wrapper {
+    display: var(--display-flex);
+}
+.flex-wrapper-col {
+    flex-direction: column;
+}
+.flex-wrapper-row {
+    display: var(--display-flex);
+    flex-direction: row;
+}
+.flex-wrapper-row-center {
+    align-items: center;
+}
+.flex-basis-wrapper-50 {
+    flex-basis: 50%;
+}
+
+/*
+/* navigation style definitions
+*/
+.nav-link {
+    padding: 4px 8px;
+    margin: 4px 8px;
+}
+.nav-link-unique {
+    border-radius: 8px;
+    border: 1px solid grey;
+    padding: 6px 16px;
+    margin-right: 16px;
+}
+
+/*
+/* search bar style definitions
+*/
+.search {
+    border: none;
+    width: 256px;
+}
+.search-bar {
+    border: 1px solid grey;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+.search-icon:hover {
+    cursor: pointer;
+}
+
+/*
+/* form style definitions
+*/
+.form-wrapper {
+    width: 420px;
+    margin: auto;
+    padding: 24px;
+    border: 1px solid grey;
+    border-radius: 8px;
+}
+.form-input-generic {
+    margin: 8px 0px;
+    padding: 8px;
+    border: 1px solid grey;
+    border-radius: 8px;
+}
+.form-text {
+    margin: 8px 0px;
+}
