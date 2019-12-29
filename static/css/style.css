@@ -1,3 +1,6 @@
+/*
+/* default style definitions
+*/
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -14,13 +17,11 @@ body {
 
 button {
     font-size: inherit;
-    padding: 8px;
 }
 
 input {
     font-size: .75rem;
     line-height: 1.5rem;
-    padding: 4px 8px;
 }
 
 h1 {
@@ -66,7 +67,8 @@ body, html {
     height: 100%;
 }
 
-/* header style definition
+/* 
+/* base style definition
 */
 header {
     position: fixed;
@@ -91,13 +93,25 @@ body, header, main, footer {
     width: 100%;
 }
 
+hr{
+    border: 0;
+    height: 1px;
+    background: #333;
+    margin: 24px 0px;
+}
+
 /*
-/* flex display definition
+/* display definition
 */
 
-.wrap {
+.wrap-indent {
     width: 80%;
     margin: auto;
+}
+
+.wrap-header {
+    position: relative;
+    transform: translateY(50%);
 }
 
 .wrap-flex {
@@ -108,6 +122,7 @@ body, header, main, footer {
     flex-direction: column;
 }
 
+
 .wrap-row {
     flex-direction: row;
     align-items: center;
@@ -115,6 +130,10 @@ body, header, main, footer {
 
 .wrap-baseline {
     align-items: baseline;
+}
+
+.wrap-flex-center {
+    justify-content: center;
 }
 
 .wrap-flex-end {
@@ -135,6 +154,59 @@ body, header, main, footer {
 }
 
 .nav-item-accent {
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid grey;
+    padding: 9px 16px;
+    margin-right: 16px;
+}
+
+/*
+/* search bar style definitions
+*/
+.search {
+    border: none;
+    width: 256px;
+}
+
+.search-bar {
+    border: 1px solid grey;
+    border-radius: 8px;
+    padding: 0px 12px;
+}
+
+.search-icon:hover {
+    cursor: pointer;
+}
+
+/*
+/* form style definitions
+*/
+.form {
+    width: 500px;
+    margin: auto;
+    border: 1px solid grey;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.form-input {
+    border: 1px solid grey;
+    border-radius: 8px;
+    margin: 8px 0px 8px 12px;
+    padding: 8px 16px;
+    width: 300px;
+}
+
+.form-row {
+    margin: 8px 0px;
+}
+
+.form-row-bot {
+    margin: auto;
+    justify-content: center;
+}
+
+.form-options {
+    margin: 12px 0px;
+    text-align: center;
 }

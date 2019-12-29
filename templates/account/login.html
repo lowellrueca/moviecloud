@@ -1,13 +1,21 @@
 {% set title = 'Login' %}
 {% extends 'base.html' %}
 {% block main %}
-<form id="login-form" action="{{ url_for('home') }}" method="POST" enctype="application/x-www-form-urlencoded">
-    <h3>Please Login!!!</h3>
-    <label for="email">Email</label>
-    <input type="email" name="email" placeholder="Enter Email..." required>
-    <label for="password">Password</label>
-    <input type="password" name="password" placeholder="Enter Password..." required>
-    <input type="submit" value="Submit">
-    <p>Or Don't Have An Account Yet? Please <a href="{{ url_for('register') }}">Register</a></p>
+<form class="form wrap-flex wrap-col" id="login-form" action="{{ url_for('home') }}" method="POST" enctype="application/x-www-form-urlencoded">
+    <h3>Please Login</h3>
+    <hr>
+    <div class="wrap-flex wrap-row wrap-flex-end form-row">
+        <label for="email">Email</label>
+        <input class="form-input" type="email" name="email" placeholder="Enter Email..." required>
+    </div>
+    <div class="wrap-flex wrap-row wrap-flex-end form-row">
+        <label for="password">Password</label>
+        <input class="form-input" type="password" name="password" placeholder="Enter Password..." required>
+    </div>
+    <hr>
+    <div class="wrap-flex wrap-col form-row-bot">
+        <input class="form-input" type="submit" value="Login">
+        <p class="form-options">Or Don't Have An Account Yet? Please <a href="{{ url_for('register') }}">Register</a></p>
+    </div>
 </form>
 {% endblock main %}

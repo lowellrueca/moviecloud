@@ -1,21 +1,20 @@
-<div class="wrap wrap-flex wrap-col">
-    <div class="wrap-flex wrap-row wrap-flex-end">
-        <input type="search" name="search" id="search" placeholder="Search...">
-        <span id="search" class="material-icons">search</span>
-    </div class="wrap-flex wrap-row">
-
-    <div class="wrap-flex wrap-row wrap-baseline">
-        <div class="flex-basis-50">
-            <a href="{{ url_for('home') }}"> <h2>MovieCloud</h2> </a>
-        </div>
-        <div class="wrap-flex flex-basis-50 wrap-row wrap-baseline wrap-flex-end">
+<div class="wrap-header wrap-indent wrap-flex">
+    <div class="wrap-flex flex-basis-50">
+        <a href="{{ url_for('home') }}"> <h2>MovieCloud</h2> </a>
+    </div>
+    <div class="wrap-flex flex-basis-50">
+        <div class="wrap-flex wrap-row">
             <a class="nav-item" href="{{ url_for('home') }}">Home</a>
-            <a class="nav-item wrap-flex wrap-row" href="#">
+            <span class="wrap-flex wrap-row">
                 <span>Movies</span>
                 <span class="material-icons">arrow_drop_down</span>
-            </a>
+            </span>
             <a class="nav-item" href="{{ url_for('login') }}">Login</a>
-            <a class="nav-item nav-item-accent" href="{{ url_for('register') }}">Register</a>
+            <a class="nav-item-accent" href="{{ url_for('register') }}">Register</a>
         </div>
+        <div class="wrap-flex wrap-row search-bar">
+            <input id="search" class="search" type="search" name="search" placeholder="Search...">
+            <span id="search" class="search-icon material-icons">search</span>
+        </div class="wrap-flex wrap-row">
     </div>
 </div>
