@@ -29,17 +29,11 @@ async def login(request: Request):
 
     page = template_env.get_template('login.html')
     context = {'request': request}
-
     token = hasher.generate_token()
-    request.session['X-Session-Token'] = token
-
+    request.session['anti-csrf-token'] = token
+    
     response: Response = template.TemplateResponse(page, context=context)
-    response.set_cookie('X-Request-Verification-Token', 
-                        hasher.generate_token(), 
-                        max_age=60000, 
-                        expires=30, 
-                        path=request.url_for('login'), 
-                        httponly=True)
+    response.set_cookie('Request-Verification-Token', token, max_age=60000, expires=30, httponly=True)
     return response
 
 
