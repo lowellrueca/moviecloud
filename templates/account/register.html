@@ -1,14 +1,20 @@
 {% set title = 'Register' %}
 {% extends 'base.html' %}
 {% block main %}
-<form class="flex-wrapper flex-wrapper-col form-wrapper" action="" method="POST" enctype="application/x-www-form-urlencoded">
+<form id="registerForm" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" action="{{ url_for('register') }}" enctype="application/x-www-form-urlencoded">
     <h3>Create an Account</h3>
+    {% if email_message %}
+        <small>{{ email_message }}</small>
+    {% endif %}
+    {% if password_message %}
+        <small>{{ password_message }}</small>
+    {% endif %}
     <hr>
     <input class="form-input-generic" type="text" placeholder="Your First Name*" name="firstName" required>
     <input class="form-input-generic" type="text" placeholder="Your Last Name*" name="lastName" required>
     <input class="form-input-generic" type="email" placeholder="Your Email*" name="email" required>
-    <input class="form-input-generic" type="password" placeholder="Enter Your Password*" name="password" required>
-    <input class="form-input-generic" type="password" placeholder="Confirm Your Password*" name="confirmPassword" required>
+    <input class="form-input-generic" type="password" minlength="8" placeholder="Enter Your Password*" name="password" required>
+    <input class="form-input-generic" type="password" minlength="8" placeholder="Confirm Your Password*" name="confirmPassword" required>
     <hr>
     <input class="form-input-generic" type="submit" value="Register">
     <small class="form-text">By clicking register, you agree on our <a href="#">terms and conditions.</a></small class="form-text">
