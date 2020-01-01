@@ -16,10 +16,6 @@ TEMPLATE_ROOT = os.path.join(BASE_ROOT, 'templates')
 # configure static files root
 STATIC_ROOT = os.path.join(BASE_ROOT, 'static')
 
-# configure session and cookie names
-SESSION_TOKEN = 'X-Session-Token'
-REQUEST_TOKEN = 'X-Request-Token'
-
 # app's configuration
 env_file = os.path.abspath(BASE_ROOT)
 config = Config(env_file=f'{env_file}/.env')
