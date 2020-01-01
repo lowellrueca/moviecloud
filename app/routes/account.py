@@ -8,7 +8,7 @@ from starlette.responses import Response, RedirectResponse
 from starlette.routing import Router, Route
 from app.db import database
 from app.extensions import HashBuilder
-from app.middlewares import REQUEST_VERIFICATION_COOKIE, FORM_TOKEN_FIELD, FORWARDED_FORM_TOKEN_SESSION
+from app.middlewares import FORM_TOKEN_FIELD, SESSION_FORM_TOKEN
 from app.views import template, template_env
 
 hash_builder = HashBuilder()
@@ -28,7 +28,7 @@ async def register(request: Request):
 
     if form is not None and len(form) != 0 and request.method == 'POST':
         # verify form token field and verification cookie with middleware
-        request.session[FORWARDED_FORM_TOKEN_SESSION] = form.get(FORM_TOKEN_FIELD)
+        request.session[SESSION_FORM_TOKEN] = form.get(FORM_TOKEN_FIELD)
         
         # get the values from form fields
         first_name = form.get('firstName')

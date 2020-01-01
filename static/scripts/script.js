@@ -1,22 +1,22 @@
 // initialize anti csrf token fields
-let setFormTokenField = (formId, fieldName, token) => {
+let setFormTokenField = (formId, fieldName, tokenValue) => {
     form = document.getElementById(formId);
     if(form != null){
         let tokenField = document.createElement('input');
         tokenField.setAttribute('name', fieldName);
         tokenField.setAttribute('type', 'hidden');
-        tokenField.setAttribute('value', token)
+        tokenField.setAttribute('value', tokenValue)
         form.appendChild(tokenField);
     }
 }
 
 let metaTokenField = document.getElementById('metaTokenField');
-let tokenValue = metaTokenField.getAttribute('content');
-let tokenFieldName = 'antiCsrfToken'
-let registerForm = 'registerForm';
-let loginForm = 'loginForm';
+let metaTokenValue = metaTokenField.getAttribute('content');
+let formTokenField = 'formToken'
+let registerFormId = 'registerForm';
+let loginFormId = 'loginForm';
 
-setFormTokenField(registerForm, tokenFieldName, tokenValue);
-setFormTokenField(loginForm, tokenFieldName, tokenValue);
+setFormTokenField(registerFormId, formTokenField, metaTokenValue);
+setFormTokenField(loginFormId, formTokenField, metaTokenValue);
 
 // end of script

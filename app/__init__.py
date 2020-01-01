@@ -7,7 +7,7 @@ from starlette.routing import Router
 
 # import application middlewares
 from starlette.middleware.sessions import SessionMiddleware
-from app.middlewares import RequestVerificationCookieMiddleware, RequestSessionVerificationMiddleware
+from app.middlewares import AntiCsrfMiddleware
 
 # import static file class
 from starlette.staticfiles import StaticFiles
@@ -30,8 +30,7 @@ def init_app():
     app = Starlette(debug=DEBUG)
 
     # add application middlewares
-    app.add_middleware(RequestVerificationCookieMiddleware)
-    app.add_middleware(RequestSessionVerificationMiddleware)
+    app.add_middleware(AntiCsrfMiddleware)
     app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
     # add app event handlers
