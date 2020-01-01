@@ -42,6 +42,14 @@ async def register(request: Request):
             query = 'SELECT email FROM member WHERE email = :email'
             fetch = await database.fetch_one(query=query, values={'email': email})
     
+            hash_pwd = hash_builder.generate_hash(password)
+            insert = 'INSERT INTO member (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)'
+            values = {'first_name': first_name,
+                      'last_name': last_name,
+                      'email': email,
+                      'password': hash_pwd
+                     }
+
             if fetch:
                 context['email_message'] = 'Email has been registered already'
             
@@ -49,15 +57,6 @@ async def register(request: Request):
                 context['password_message'] = 'Password not matched'
     
             else:
-                hash_pwd = hash_builder.generate_hash(password)
-                insert = 'INSERT INTO member (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)'
-                values = {
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'email': email,
-                    'password': hash_pwd
-                }
-    
                 await database.execute(query=insert, values=values)
 
     return template.TemplateResponse(page, context=context)
