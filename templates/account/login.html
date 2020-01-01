@@ -1,7 +1,7 @@
 {% set title = 'Login' %}
 {% extends 'base.html' %}
 {% block main %}
-<form class="flex-wrapper flex-wrapper-col form-wrapper" id="login-form" action="{{ url_for('home') }}" method="POST" enctype="application/x-www-form-urlencoded">
+<form id="loginForm" class="flex-wrapper flex-wrapper-col form-wrapper" action="{{ url_for('home') }}" method="POST" enctype="application/x-www-form-urlencoded">
     <h3>Please Login</h3>
     <hr>
     <input class="form-input-generic" type="email" name="email" placeholder="Your Email*" required>
