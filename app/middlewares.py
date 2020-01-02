@@ -9,9 +9,11 @@ from starlette.exceptions import HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response, RedirectResponse
+from app.db import database
 from app.extensions import HashBuilder
 
 FORM_TOKEN_FIELD = 'formToken'
+SESSION_ID = 'X-Session-Id'
 SESSION_FORM_TOKEN = 'session_form_token'
 REQUEST_VERIFICATION_COOKIE = 'X-Request-Verification-Token'
 
@@ -44,3 +46,28 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
                 raise HTTPException(403, detail='Bad Request')
 
         return response
+
+
+class AuthenticateMemberMiddleware(AuthenticationBackend):
+    __session_id__ = SESSION_ID
+
+    async def authenticate(self, request: Request):
+        if self.__session_id__ not in request.cookies: return
+
+        session_id = request.cookies[self.__session_id__]
+        async with database.transaction():
+            query = 'SELECT first_name, role FROM member WHERE session_id = :session_id'
+            fetch = await database.fetch_one(query=query, values={'session_id': session_id})
+            
+            if fetch:
+                first_name = fetch['first_name']
+                role = fetch['role']
+
+                if role != 'admin':
+                    return AuthCredentials(['authenticated']), SimpleUser(first_name)
+
+                elif role == 'admin':
+                    return AuthCredentials(['authenticated', 'admin']), SimpleUser(first_name)
+            
+            else:
+                return None

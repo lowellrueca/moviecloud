@@ -7,7 +7,8 @@ from starlette.routing import Router
 
 # import application middlewares
 from starlette.middleware.sessions import SessionMiddleware
-from app.middlewares import AntiCsrfMiddleware
+from starlette.middleware.authentication import AuthenticationMiddleware
+from app.middlewares import AntiCsrfMiddleware, AuthenticateMemberMiddleware
 
 # import static file class
 from starlette.staticfiles import StaticFiles
@@ -31,6 +32,7 @@ def init_app():
 
     # add application middlewares
     app.add_middleware(AntiCsrfMiddleware)
+    app.add_middleware(AuthenticationMiddleware, backend=AuthenticateMemberMiddleware())
     app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
     # add app event handlers
