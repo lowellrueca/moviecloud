@@ -112,6 +112,7 @@ async def login(request: Request):
 
 @requires('authenticated', status_code=403)
 async def logout(request: Request):
+    request.session.clear()
     response = RedirectResponse(request.url_for('login'))
     response.delete_cookie(SESSION_ID)
     return response
