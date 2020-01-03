@@ -11,6 +11,8 @@ from starlette.requests import Request
 from starlette.responses import Response, RedirectResponse
 from app.db import database
 from app.extensions import HashBuilder
+from app.routes.exceptions import error_403
+from app.views import template, template_env
 
 FORM_TOKEN_FIELD = 'formToken'
 SESSION_ID = 'X-Session-Id'
@@ -43,7 +45,9 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
             form_token = request.session[SESSION_FORM_TOKEN]
 
             if form_token != verification_token:
-                raise HTTPException(403, detail='Bad Request')
+                page = template_env.get_template('error_403.html')
+                context = {'request': request}
+                return template.TemplateResponse(page, context=context, status_code=403)
 
         return response
 
