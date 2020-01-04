@@ -123,9 +123,9 @@ async def details(request: Request):
     return PlainTextResponse(f'Hello {request.user.display_name}')
 
 
-account_router = Router([
+routes = [
     Route('/register', endpoint=register, methods=['GET', 'POST']),
     Route('/login', endpoint=login, methods=['GET', 'POST']),
     Route('/logout', endpoint=logout, methods=['GET']),
     Route('/details', endpoint=details, methods=['GET'])
-])
+]
