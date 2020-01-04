@@ -44,7 +44,6 @@ def init_app():
         405: error_500
     }
 
-
     app = Starlette(
         debug=DEBUG, 
         routes=routes, 
