@@ -19,7 +19,7 @@ async def about(request: Request):
     return template.TemplateResponse(page, context=context)
 
 
-index_router = Router([
+routes = [
     Route('/', endpoint=home, methods=['GET', 'POST']),
     Route('/about', endpoint=about, methods=['GET'])
-])
+]
