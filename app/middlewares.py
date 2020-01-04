@@ -29,13 +29,14 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
     __cookie_name__ = REQUEST_VERIFICATION_COOKIE
     __session_form_token__ = SESSION_FORM_TOKEN
 
-    async def dispatch(self, request: Request, call_next):
-        response: Response = await call_next(request)
+    async def init_cookie(self, request: Request, response: Response):
         token = self.__hash_builder__.generate_token()
-        
-        # initialize cookie with token
         if self.__cookie_name__ not in request.cookies:
             response.set_cookie(self.__cookie_name__, token, max_age=60000, expires=30, path=request.base_url)
+
+    async def dispatch(self, request: Request, call_next):
+        response: Response = await call_next(request)
+        await self.init_cookie(request, response)
 
         if self.__cookie_name__ in request.cookies \
             and self.__session_form_token__ in request.session \
