@@ -76,3 +76,21 @@ class AuthenticateMemberMiddleware(AuthenticationBackend):
             
             else:
                 return None
+
+
+class RedirectToAccountDetailMiddleware(BaseHTTPMiddleware):
+    """
+    This class returns redirect response to member's account details,
+    preventing the member to access login and register routes if they
+    have been successfully authenticated.
+    """
+    async def dispatch(self, request: Request, call_next):
+        response: Response = await call_next(request)
+        register_url = f'{request.base_url}account/register'
+        login_url = f'{request.base_url}account/login'
+
+        if request.url == register_url or request.url == login_url:
+            if request.user.is_authenticated:
+                return RedirectResponse(request.url_for('details'))
+
+        return response

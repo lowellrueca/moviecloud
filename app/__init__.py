@@ -10,6 +10,7 @@ from starlette.routing import Mount
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from app.middlewares import AntiCsrfMiddleware, AuthenticateMemberMiddleware
+from app.middlewares import RedirectToAccountDetailMiddleware
 
 # import static file class
 from starlette.staticfiles import StaticFiles
@@ -35,6 +36,7 @@ def init_app():
     middlewares = [
         Middleware(AntiCsrfMiddleware),
         Middleware(AuthenticationMiddleware, backend=AuthenticateMemberMiddleware()),
+        Middleware(RedirectToAccountDetailMiddleware),
         Middleware(SessionMiddleware, secret_key=SECRET_KEY)
     ]
 
