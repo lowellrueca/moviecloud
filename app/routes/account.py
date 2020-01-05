@@ -19,10 +19,6 @@ async def register(request: Request):
     """
     This returns an html page for creating or registering an account
     """
-
-    if request.user.is_authenticated:
-        return RedirectResponse(request.url_for('details'))
-
     page = template_env.get_template('register.html')
     context = {'request': request}
     form = await request.form()
@@ -67,10 +63,6 @@ async def login(request: Request):
     """
     This returns an html page for logging in the users
     """
-
-    if request.user.is_authenticated:
-        return RedirectResponse(request.url_for('details'))
-
     page = template_env.get_template('login.html')
     context = {'request': request}
     session_id = hash_builder.generate_token()
