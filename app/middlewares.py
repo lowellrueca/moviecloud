@@ -78,7 +78,7 @@ class AuthenticateMemberMiddleware(AuthenticationBackend):
                 return None
 
 
-class RedirectToAccountDetailMiddleware(BaseHTTPMiddleware):
+class PreventPublicAuthMiddleware(BaseHTTPMiddleware):
     """
     This class returns redirect response to member's account details,
     preventing the member to access login and register routes if they
