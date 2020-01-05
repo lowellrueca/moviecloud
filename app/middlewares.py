@@ -11,7 +11,6 @@ from starlette.requests import Request
 from starlette.responses import Response, RedirectResponse
 from app.db import database
 from app.extensions import HashBuilder
-from app.routes.exceptions import error_403
 from app.views import template, template_env
 
 FORM_TOKEN_FIELD = 'formToken'
