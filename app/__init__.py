@@ -21,10 +21,11 @@ from app.config import DEBUG, STATIC_ROOT, SECRET_KEY
 # import event handlers
 from app.events import startup, shutdown
 
-# import routes and exception handlers
+# import routes
 from app.routes import index, account
-from app.routes.exceptions import error_403, error_404, error_500
 
+# import exception handlers
+from app.exceptions import error_403, error_404, error_500
 
 def init_app():
     routes = [
