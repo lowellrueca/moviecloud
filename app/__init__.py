@@ -2,11 +2,10 @@
 This module serves to initialize the application factory
 """
 
-from starlette.applications import Starlette
-from starlette.middleware import Middleware
-from starlette.routing import Mount
+from starlette.applications import Starlette as App
 
 # import application middlewares
+from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from app.middlewares import AntiCsrfMiddleware, AuthenticateMemberMiddleware
@@ -25,6 +24,7 @@ from app.resources import STATIC_PATH
 from app.events import startup, shutdown
 
 # import routes
+from starlette.routing import Mount
 from app.routes import index, account
 
 # import exception handlers
@@ -51,7 +51,7 @@ def init_app():
         405: error_500
     }
 
-    app = Starlette(
+    app = App(
         debug=DEBUG, 
         routes=routes, 
         middleware=middlewares, 
