@@ -4,7 +4,7 @@ This module serves as an index controller
 
 from starlette.requests import Request
 from starlette.routing import Router, Route
-from app.views import template, template_env
+from app.resources import template, template_env
 
 
 async def home(request: Request):

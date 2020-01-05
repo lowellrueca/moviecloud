@@ -1,7 +1,7 @@
 """
 This modules contains application exception handlers
 """
-from app.views import template_env, template
+from app.resources import template_env, template
 
 
 async def error_403(request, exception):

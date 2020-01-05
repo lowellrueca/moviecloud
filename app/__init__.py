@@ -16,7 +16,10 @@ from app.middlewares import PreventPublicAuthMiddleware
 from starlette.staticfiles import StaticFiles
 
 # import app configurations
-from app.config import DEBUG, STATIC_ROOT, SECRET_KEY
+from app.config import DEBUG, SECRET_KEY
+
+# import resources
+from app.resources import STATIC_PATH
 
 # import event handlers
 from app.events import startup, shutdown
@@ -27,9 +30,10 @@ from app.routes import index, account
 # import exception handlers
 from app.exceptions import error_403, error_404, error_500
 
+
 def init_app():
     routes = [
-        Mount('/static', StaticFiles(directory=STATIC_ROOT), name='static'),
+        Mount('/static', StaticFiles(directory=STATIC_PATH), name='static'),
         Mount('/account', routes=account.routes),
         Mount('/', routes=index.routes)
     ]

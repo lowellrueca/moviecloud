@@ -10,7 +10,7 @@ from starlette.routing import Router, Route
 from app.db import database
 from app.extensions import HashBuilder
 from app.middlewares import FORM_TOKEN_FIELD, SESSION_FORM_TOKEN, SESSION_ID
-from app.views import template, template_env
+from app.resources import template, template_env
 
 hash_builder = HashBuilder()
 
