@@ -9,7 +9,7 @@ from starlette.responses import Response, RedirectResponse, PlainTextResponse
 from starlette.routing import Router, Route
 from app.db import database
 from app.extensions import HashBuilder
-from app.middlewares import FORM_TOKEN_FIELD, SESSION_FORM_TOKEN, SESSION_ID
+from app.middlewares import AntiCsrfMiddleware, SESSION_ID
 from app.resources import template, template_env
 
 hash_builder = HashBuilder()
@@ -24,9 +24,8 @@ async def register(request: Request):
     form = await request.form()
 
     if form is not None and len(form) != 0 and request.method == 'POST':
-        # verify form token field and verification cookie with middleware
-        request.session[SESSION_FORM_TOKEN] = form.get(FORM_TOKEN_FIELD)
-        
+        await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
+
         # get the values from form fields
         first_name = form.get('firstName')
         last_name = form.get('lastName')
@@ -73,9 +72,8 @@ async def login(request: Request):
         password = form.get('password')
         hash_pwd = hash_builder.generate_hash(password)
         
-        # verify form token field and verification cookie with middleware
-        request.session[SESSION_FORM_TOKEN] = form.get(FORM_TOKEN_FIELD)
-        
+        await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
+
         async with database.transaction():
             query_email = 'SELECT email FROM member WHERE email = :email'
             fetch_email = await database.fetch_one(query=query_email, values={'email': email})
