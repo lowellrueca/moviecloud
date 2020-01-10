@@ -53,8 +53,8 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
 
         return response
 
-    @classmethod
-    async def validate_anti_csrf_token(cls, request: Request, form: FormData):
+    @staticmethod
+    async def validate_anti_csrf_token(request: Request, form: FormData):
         """
         This method sets the session which holds the token with the post request from form's hidden input field,
         and validates within this class dispatch method.
