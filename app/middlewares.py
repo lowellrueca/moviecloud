@@ -56,9 +56,8 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
     @classmethod
     async def validate_anti_csrf_token(cls, request: Request, form: FormData):
         """
-        This method needs to invoke in the endpoints to set the session to validate token with post request
-        from form's hidden input field, and this passes within this class dispatch method which returns 403
-        status code and error 403 html page if the posted token did not match with request verification token.
+        This method sets the session which holds the token with the post request from form's hidden input field,
+        and validates within this class dispatch method.
 
         Usage:
         async def endpoint(request):
