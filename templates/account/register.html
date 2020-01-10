@@ -1,7 +1,7 @@
 {% set title = 'Register' %}
 {% extends 'base.html' %}
 {% block main %}
-<form id="registerForm" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" action="{{ url_for('register') }}" enctype="application/x-www-form-urlencoded">
+<form id="register-form" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" action="{{ url_for('register') }}" enctype="application/x-www-form-urlencoded">
     <h3>Create an Account</h3>
     {% if email_message %}
         <small>{{ email_message }}</small>
