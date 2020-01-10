@@ -5,7 +5,8 @@ This module contains application middlewares
 from starlette.requests import Request
 from starlette.authentication import AuthenticationBackend, AuthenticationError, \
     SimpleUser, UnauthenticatedUser, AuthCredentials
-from starlette.exceptions import HTTPException    
+from starlette.datastructures import FormData
+from starlette.exceptions import HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response, RedirectResponse
@@ -13,43 +14,63 @@ from app.db import database
 from app.extensions import HashBuilder
 from app.resources import template, template_env
 
-FORM_TOKEN_FIELD = 'formToken'
 SESSION_ID = 'X-Session-Id'
-SESSION_FORM_TOKEN = 'session_form_token'
-REQUEST_VERIFICATION_COOKIE = 'X-Request-Verification-Token'
 
 
 class AntiCsrfMiddleware(BaseHTTPMiddleware):
     """
-    This class initialize request verification token for anti csrf functionality
+    This class initialize request verification token and validates posted token.
+
     """
 
     __hash_builder__ = HashBuilder()
-    __cookie_name__ = REQUEST_VERIFICATION_COOKIE
-    __session_form_token__ = SESSION_FORM_TOKEN
+    __cookie__ = 'X-Request-Verification-Token'
+    __session__ = 'request_verification_session'
+    __token_field__ = 'anti-csrf-token'
 
     async def init_cookie(self, request: Request, response: Response):
+        """
+        Initilizes cookie and sends the request verification token to the client
+        """
         token = self.__hash_builder__.generate_token()
-        if self.__cookie_name__ not in request.cookies:
-            response.set_cookie(self.__cookie_name__, token, max_age=60000, expires=30, path=request.base_url)
+        if self.__cookie__ not in request.cookies:
+            response.set_cookie(self.__cookie__, token, max_age=60000, expires=30, path=request.base_url)
 
     async def dispatch(self, request: Request, call_next):
         response: Response = await call_next(request)
         await self.init_cookie(request, response)
 
-        if self.__cookie_name__ in request.cookies \
-            and self.__session_form_token__ in request.session \
+        if self.__cookie__ in request.cookies \
+            and self.__session__ in request.session \
             and request.method == 'POST':
 
-            verification_token = request.cookies[REQUEST_VERIFICATION_COOKIE]
-            form_token = request.session[SESSION_FORM_TOKEN]
-
-            if form_token != verification_token:
+            cookie_token = request.cookies[self.__cookie__]
+            session_token = request.session[self.__session__]
+            if session_token != cookie_token:
                 page = template_env.get_template('error_403.html')
                 context = {'request': request}
                 return template.TemplateResponse(page, context=context, status_code=403)
 
         return response
+
+    @classmethod
+    async def validate_anti_csrf_token(cls, request: Request, form: FormData):
+        """
+        This method needs to invoke in the endpoints to set the session to validate token with post request
+        from form's hidden input field, and this passes within this class dispatch method which returns 403
+        status code and error 403 html page if the posted token did not match with request verification token.
+
+        Usage:
+        async def endpoint(request):
+            form = await request.form()
+            if len(form) != 0 and request.method is == 'POST:
+                await AtniCsrfMiddleware.validate_anti_csrf_token(request, form)
+
+        Parameters:
+        request -> The request object
+        form    -> The form data object
+        """
+        request.session[AntiCsrfMiddleware.__session__] = form.get(AntiCsrfMiddleware.__token_field__)
 
 
 class AuthenticateMemberMiddleware(AuthenticationBackend):
