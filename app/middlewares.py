@@ -63,7 +63,7 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
         async def endpoint(request):
             form = await request.form()
             if len(form) != 0 and request.method is == 'POST:
-                await AtniCsrfMiddleware.validate_anti_csrf_token(request, form)
+                await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
 
         Parameters:
         request -> The request object
