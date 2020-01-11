@@ -22,8 +22,8 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
     """
 
     __hash_builder__ = HashBuilder()
-    cookie = 'X-Request-Verification-Token'
-    session = 'request_verification_session'
+    anti_csrf_cookie = 'X-Request-Verification-Token'
+    anti_csrf_session = 'request_verification_session'
     anti_csrf_field = 'anti-csrf-token'
 
     async def init_cookie(self, request: Request, response: Response):
@@ -31,19 +31,19 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
         Initilizes cookie and sends the request verification token to the client
         """
         token = self.__hash_builder__.generate_token()
-        if self.cookie not in request.cookies:
-            response.set_cookie(self.cookie, token, max_age=60000, expires=30, path=request.base_url)
+        if self.anti_csrf_cookie not in request.cookies:
+            response.set_cookie(self.anti_csrf_cookie, token, max_age=60000, expires=30, path=request.base_url)
 
     async def dispatch(self, request: Request, call_next):
         response: Response = await call_next(request)
         await self.init_cookie(request, response)
 
-        if self.cookie in request.cookies \
-            and self.session in request.session \
+        if self.anti_csrf_cookie in request.cookies \
+            and self.anti_csrf_session in request.session \
             and request.method == 'POST':
 
-            cookie_token = request.cookies[self.cookie]
-            session_token = request.session[self.session]
+            cookie_token = request.cookies[self.anti_csrf_cookie]
+            session_token = request.session[self.anti_csrf_session]
             if session_token != cookie_token:
                 page = template_env.get_template('error_403.html')
                 context = {'request': request}
@@ -67,7 +67,7 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
         request -> The request object
         form    -> The form data object
         """
-        request.session[AntiCsrfMiddleware.session] = form.get(AntiCsrfMiddleware.anti_csrf_field)
+        request.session[AntiCsrfMiddleware.anti_csrf_session] = form.get(AntiCsrfMiddleware.anti_csrf_field)
 
 
 class AuthenticateMemberMiddleware(AuthenticationBackend):

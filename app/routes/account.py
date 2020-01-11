@@ -104,10 +104,10 @@ async def login(request: Request):
 
 @requires('authenticated', status_code=403)
 async def logout(request: Request):
-    auth_key = AuthenticateMemberMiddleware.auth_key
+    auth_cookie = AuthenticateMemberMiddleware.auth_key
     request.session.clear()
     response = RedirectResponse(request.url_for('login'))
-    response.delete_cookie(auth_key)
+    response.delete_cookie(auth_cookie)
     return response
 
 
