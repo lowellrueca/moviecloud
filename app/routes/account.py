@@ -9,7 +9,7 @@ from starlette.responses import Response, RedirectResponse, PlainTextResponse
 from starlette.routing import Router, Route
 from app.db import database
 from app.extensions import HashBuilder
-from app.middlewares import AntiCsrfMiddleware, SESSION_ID
+from app.middlewares import AntiCsrfMiddleware, AuthenticateMemberMiddleware
 from app.resources import template, template_env
 
 hash_builder = HashBuilder()
@@ -64,7 +64,6 @@ async def login(request: Request):
     """
     page = template_env.get_template('login.html')
     context = {'request': request}
-    session_id = hash_builder.generate_token()
 
     form = await request.form()
     if form is not None and len(form) != 0 and request.method == 'POST':
@@ -84,17 +83,20 @@ async def login(request: Request):
             if not fetch_email:
                 context['email_message'] = 'Email has not been registered. Please Register'
 
-            if hash_pwd != fetch_pwd['password']:
+            if fetch_pwd['password'] != hash_pwd:
                 context['password_message'] = 'Password not matched'
 
             else:
-                insert = 'UPDATE member SET session_id = :session_id WHERE email = :email'
-                values = {'session_id': session_id, 'email': email}
-                await database.execute(query=insert, values=values)
+                auth_key = AuthenticateMemberMiddleware.auth_key
+                auth_token = hash_builder.generate_token()
+
+                update = 'UPDATE member SET auth_id = :auth_id WHERE email = :email'
+                values = {auth_key: auth_token, 'email': email}
+                await database.execute(query=update, values=values)
 
                 # return RedirectResponse(request.url_for('home'))
                 response: Response = RedirectResponse(request.url_for('home'))
-                response.set_cookie(SESSION_ID, session_id, max_age=60000, expires=30)
+                response.set_cookie(auth_key, auth_token, max_age=60000, expires=30)
                 return response
 
     return template.TemplateResponse(page, context=context)
@@ -102,9 +104,10 @@ async def login(request: Request):
 
 @requires('authenticated', status_code=403)
 async def logout(request: Request):
+    auth_key = AuthenticateMemberMiddleware.auth_key
     request.session.clear()
     response = RedirectResponse(request.url_for('login'))
-    response.delete_cookie(SESSION_ID)
+    response.delete_cookie(auth_key)
     return response
 
 
