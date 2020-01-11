@@ -14,8 +14,6 @@ from app.db import database
 from app.extensions import HashBuilder
 from app.resources import template, template_env
 
-SESSION_ID = 'X-Session-Id'
-
 
 class AntiCsrfMiddleware(BaseHTTPMiddleware):
     """
@@ -73,15 +71,16 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
 
 
 class AuthenticateMemberMiddleware(AuthenticationBackend):
-    __session_id__ = SESSION_ID
-
+    __hash_builder__ = HashBuilder()
+    auth_key = 'auth_id'
+    
     async def authenticate(self, request: Request):
-        if self.__session_id__ not in request.cookies: return
+        if self.auth_key not in request.cookies: return
 
-        session_id = request.cookies[self.__session_id__]
+        auth_id = request.cookies[self.auth_key]
         async with database.transaction():
-            query = 'SELECT first_name, role FROM member WHERE session_id = :session_id'
-            fetch = await database.fetch_one(query=query, values={'session_id': session_id})
+            query = 'SELECT first_name, role FROM member WHERE auth_id = :auth_id'
+            fetch = await database.fetch_one(query=query, values={'auth_id': auth_id})
             
             if fetch:
                 first_name = fetch['first_name']
