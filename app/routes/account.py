@@ -5,7 +5,7 @@ this also serves authenticating users for the application
 
 from starlette.authentication import requires
 from starlette.requests import Request
-from starlette.responses import Response, RedirectResponse, PlainTextResponse
+from starlette.responses import JSONResponse, Response, RedirectResponse, PlainTextResponse
 from starlette.routing import Router, Route
 from app.db import database
 from app.extensions import HashBuilder
@@ -81,10 +81,10 @@ async def login(request: Request):
             fetch_pwd = await database.fetch_one(query=query_pwd, values={'email': email})
 
             if not fetch_email:
-                context['email_message'] = 'Email has not been registered. Please Register'
+                return PlainTextResponse('Email has not been registered. Please Register')
 
-            if fetch_pwd['password'] != hash_pwd:
-                context['password_message'] = 'Password not matched'
+            if hash_pwd != fetch_pwd['password']:
+                return PlainTextResponse('Password not matched')
 
             else:
                 auth_key = AuthenticateMemberMiddleware.auth_key
@@ -94,7 +94,6 @@ async def login(request: Request):
                 values = {auth_key: auth_token, 'email': email}
                 await database.execute(query=update, values=values)
 
-                # return RedirectResponse(request.url_for('home'))
                 response: Response = RedirectResponse(request.url_for('home'))
                 response.set_cookie(auth_key, auth_token, max_age=60000, expires=30)
                 return response
