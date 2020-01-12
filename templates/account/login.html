@@ -10,5 +10,48 @@
     <input class="form-input-generic" type="submit" value="Login">
     <small class="form-text"><a href="#">Forgot Password?</a></small class="form-text">
     <p class="form-text">Or Don't Have An Account Yet? <a href="{{ url_for('register') }}">Register here</a></p>
+    <input id="login-csrf-token" type="hidden" name="anti-csrf-token" value="{{ request.cookies['X-Request-Verification-Token'] }}">
+    <p id="login-message"></p>
 </form>
 {% endblock main %}
+{% block script %}
+<script>
+    let loginForm = document.getElementById('login-form');
+    let loginCsrfToken = document.getElementById('login-csrf-token');
+    let loginMessage = document.getElementById('login-message');
+    loginMessage.style.display = 'none';
+
+    loginForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(loginCsrfToken != null){
+            let token = loginCsrfToken.getAttribute('value');
+
+            fetch('http://localhost:5000/account/login', {
+                method: 'POST',
+                redirect: 'follow',
+                headers: {
+                    'X-CSRF-Token': token,
+                },
+                body: new FormData(loginForm)
+            })
+            .then((response) => {
+                if(!response.redirected) {
+                    return response.text()
+                }
+                if(response.status == 200 && response.redirected){
+                    window.location.href = response.url;
+                }
+            })
+            .then((text) => {
+                if(text != null){
+                    loginMessage.style.display = 'inherit';
+                    loginMessage.innerHTML = text;
+                }
+            })
+            .catch(error =>
+                console.log(error)
+            );
+        }
+    });
+</script>
+{% endblock script %}
