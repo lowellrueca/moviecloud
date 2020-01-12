@@ -39,10 +39,10 @@ def init_app():
     ]
 
     middlewares = [
+        Middleware(SessionMiddleware, secret_key=SECRET_KEY),
         Middleware(AntiCsrfMiddleware),
         Middleware(AuthenticationMiddleware, backend=AuthenticateMemberMiddleware()),
-        Middleware(PreventPublicAuthMiddleware),
-        Middleware(SessionMiddleware, secret_key=SECRET_KEY)
+        Middleware(PreventPublicAuthMiddleware)
     ]
 
     exception_handlers = {
