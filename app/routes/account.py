@@ -94,8 +94,10 @@ async def login(request: Request):
                 values = {auth_key: auth_token, 'email': email}
                 await database.execute(query=update, values=values)
 
+                request.session[auth_key] = auth_token
                 response: Response = RedirectResponse(request.url_for('home'))
-                response.set_cookie(auth_key, auth_token, max_age=60000, expires=30)
+                # delete this cookie to reset with AntiCsrfMiddleware
+                response.delete_cookie(AntiCsrfMiddleware.anti_csrf_cookie)
                 return response
 
     return template.TemplateResponse(page, context=context)
@@ -103,10 +105,8 @@ async def login(request: Request):
 
 @requires('authenticated', status_code=403)
 async def logout(request: Request):
-    auth_cookie = AuthenticateMemberMiddleware.auth_key
     request.session.clear()
     response = RedirectResponse(request.url_for('login'))
-    response.delete_cookie(auth_cookie)
     return response
 
 
