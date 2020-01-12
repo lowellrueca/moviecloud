@@ -74,9 +74,9 @@ class AuthenticateMemberMiddleware(AuthenticationBackend):
     auth_key = 'auth_id'
     
     async def authenticate(self, request: Request):
-        if self.auth_key not in request.cookies: return
+        if self.auth_key not in request.session: return
 
-        auth_id = request.cookies[self.auth_key]
+        auth_id = request.session[self.auth_key]
         async with database.transaction():
             query = 'SELECT first_name, role FROM member WHERE auth_id = :auth_id'
             fetch = await database.fetch_one(query=query, values={'auth_id': auth_id})
