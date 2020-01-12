@@ -45,7 +45,8 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
             cookie_token = request.cookies[self.anti_csrf_cookie]
             session_token = request.session[self.anti_csrf_session]
             if session_token != cookie_token:
-                return HTMLResponse(f'<span>Please hit <a href="{request.url_for("login")}">Refresh</a> to reload the page</span>', status_code=403)
+                html = f'<span>Please hit <a href="{request.url_for("login")}">Refresh</a> to reload the page</span>'
+                return HTMLResponse(html, status_code=403)
 
         return response
 

@@ -20,25 +20,28 @@
     let loginMessage = document.getElementById('login-message');
     loginMessage.style.display = 'none';
     
-    loginForm.addEventListener('submit', function(e){
-        e.preventDefault();
+    loginForm.addEventListener('submit', function(event){ 
+        event.preventDefault();
+
         let loginCsrfToken = document.getElementById('login-csrf-token');
-        
+
         if(loginCsrfToken === null){
             location.reload();
         }
         
         if(loginCsrfToken != null){
             let token = loginCsrfToken.getAttribute('value');
-            fetch('{{url_for("login")}}', {
+            let request = new Request('{{ url_for("login") }}', {
                 method: 'POST',
                 body: new FormData(loginForm)
-            })
+            });
+
+            fetch(request)
             .then((response) => {
                 if(!response.redirected) {
                     return response.text()
                 }
-                if(response.status == 200 && response.redirected){
+                if(response.status === 200 && response.redirected){
                     window.location.href = response.url;
                 }
             })
@@ -48,7 +51,7 @@
                     loginMessage.innerHTML = text;
                 }
             })
-            .catch(error =>
+            .catch((error) =>
                 console.log(error)
             );
         }
