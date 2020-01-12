@@ -30,7 +30,7 @@
         
         if(loginCsrfToken != null){
             let token = loginCsrfToken.getAttribute('value');
-            fetch('http://localhost:5000/account/login', {
+            fetch('{{url_for("login")}}', {
                 method: 'POST',
                 body: new FormData(loginForm)
             })
