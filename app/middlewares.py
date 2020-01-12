@@ -9,7 +9,7 @@ from starlette.datastructures import FormData
 from starlette.exceptions import HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response, RedirectResponse
+from starlette.responses import Response, RedirectResponse, HTMLResponse
 from app.db import database
 from app.extensions import HashBuilder
 from app.resources import template, template_env
@@ -41,13 +41,11 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
         if self.anti_csrf_cookie in request.cookies \
             and self.anti_csrf_session in request.session \
             and request.method == 'POST':
-
+            
             cookie_token = request.cookies[self.anti_csrf_cookie]
             session_token = request.session[self.anti_csrf_session]
             if session_token != cookie_token:
-                page = template_env.get_template('error_403.html')
-                context = {'request': request}
-                return template.TemplateResponse(page, context=context, status_code=403)
+                return HTMLResponse(f'<span>Please hit <a href="{request.url_for("login")}">Refresh</a> to reload the page</span>', status_code=403)
 
         return response
 
