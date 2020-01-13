@@ -5,7 +5,7 @@ this also serves authenticating users for the application
 
 from starlette.authentication import requires
 from starlette.requests import Request
-from starlette.responses import JSONResponse, Response, RedirectResponse, PlainTextResponse
+from starlette.responses import Response, RedirectResponse, PlainTextResponse, HTMLResponse
 from starlette.routing import Router, Route
 from app.db import database
 from app.extensions import HashBuilder
@@ -34,7 +34,6 @@ async def register(request: Request):
         confirm_password = form.get('confirmPassword')
 
         async with database.transaction():
-            # check if email has been already registered in the database
             query = 'SELECT email FROM member WHERE email = :email'
             fetch = await database.fetch_one(query=query, values={'email': email})
     
@@ -47,13 +46,15 @@ async def register(request: Request):
                      }
 
             if fetch:
-                context['email_message'] = 'Email has been registered already'
+                return PlainTextResponse('Email has been registered already')
             
             elif password != confirm_password:
-                context['password_message'] = 'Password not matched'
+                return PlainTextResponse('Password not matched')
     
             else:
                 await database.execute(query=insert, values=values)
+                html = f"<span>You've been sucessfully registered {first_name}, you may now <a href={request.url_for('login')}>Login</a></span>"
+                return HTMLResponse(html)
 
     return template.TemplateResponse(page, context=context)
 
@@ -67,11 +68,11 @@ async def login(request: Request):
 
     form = await request.form()
     if form is not None and len(form) != 0 and request.method == 'POST':
+        await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
+        
         email = form.get('email')
         password = form.get('password')
         hash_pwd = hash_builder.generate_hash(password)
-        
-        await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
 
         async with database.transaction():
             query_email = 'SELECT email FROM member WHERE email = :email'
@@ -94,9 +95,11 @@ async def login(request: Request):
                 values = {auth_key: auth_token, 'email': email}
                 await database.execute(query=update, values=values)
 
+                # initialize the session to verify user authentication with AuthenticationMemberMIddleware
                 request.session[auth_key] = auth_token
+
+                # return redirect response and delete anti csrf cookie to reset with AntiCsrfMiddleware
                 response: Response = RedirectResponse(request.url_for('home'))
-                # delete this cookie to reset with AntiCsrfMiddleware
                 response.delete_cookie(AntiCsrfMiddleware.anti_csrf_cookie)
                 return response
 
@@ -105,7 +108,7 @@ async def login(request: Request):
 
 @requires('authenticated', status_code=403)
 async def logout(request: Request):
-    request.session.clear()
+    request.session.pop(AuthenticateMemberMiddleware.auth_key, None)
     response = RedirectResponse(request.url_for('login'))
     return response
 
