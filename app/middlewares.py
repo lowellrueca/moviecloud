@@ -41,6 +41,7 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
             x_csrf_token = request.headers.get(self.anti_csrf_cookie.lower())
 
             if x_csrf_token != cookie_token:
+                # TODO: redirect to error 400 handler page
                 return Response(status_code=400)
 
         return response
