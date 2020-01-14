@@ -41,7 +41,6 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
             x_csrf_token = request.headers.get(self.anti_csrf_cookie.lower())
 
             if x_csrf_token != cookie_token:
-                # TODO: redirect to error 400 handler page
                 return Response(status_code=400)
 
         return response
@@ -59,8 +58,20 @@ class AuthenticateMemberMiddleware(AuthenticationBackend):
     auth_key = 'auth_id'
     
     async def authenticate(self, request: Request):
+        # validate x-csrf-token header with cookie token
+        if AntiCsrfMiddleware.anti_csrf_cookie in request.cookies \
+            and 'x-csrf-token' in request.headers:
+
+            cookie_token = request.cookies[AntiCsrfMiddleware.anti_csrf_cookie]
+            x_csrf_header = {k: v for k, v in request.headers.items() if k == AntiCsrfMiddleware.anti_csrf_cookie.lower()}
+            for x_csrf_key, x_csrf_token in x_csrf_header.items():
+                if x_csrf_token != cookie_token:
+                    raise AuthenticationError('Failed to send request due with tokens not matched')
+        
+        # return if auth_id not in request session
         if self.auth_key not in request.session: return
 
+        # proceed to fetch user/ member
         auth_id = request.session[self.auth_key]
         async with database.transaction():
             query = 'SELECT first_name, role FROM member WHERE auth_id = :auth_id'
