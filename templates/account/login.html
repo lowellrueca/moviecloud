@@ -3,6 +3,7 @@
 {% block main %}
 <form id="login-form" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" enctype="application/x-www-form-urlencoded">
     <h3>Please Login</h3>
+    <p id="login-message"></p>
     <hr>
     <input class="form-input-generic" type="email" name="email" placeholder="Your Email*" required>
     <input class="form-input-generic" type="password" name="password" placeholder="Your Password*" required>
@@ -10,8 +11,7 @@
     <input class="form-input-generic" type="submit" value="Login">
     <small class="form-text"><a href="#">Forgot Password?</a></small class="form-text">
     <p class="form-text">Or Don't Have An Account Yet? <a href="{{ url_for('register') }}">Register here</a></p>
-    <input id="login-csrf-token" type="hidden" name="anti-csrf-token" value="{{ request.cookies['X-Request-Verification-Token'] }}">
-    <p id="login-message"></p>
+    <input id="login-csrf-token" type="hidden" name="{{ x_csrf_key }}" value="{{ x_csrf_token }}">
 </form>
 {% endblock main %}
 {% block script %}
@@ -20,7 +20,7 @@
     let loginMessage = document.getElementById('login-message');
     loginMessage.style.display = 'none';
     
-    loginForm.addEventListener('submit', function(event){ 
+    loginForm.addEventListener('submit', () => { 
         event.preventDefault();
 
         let loginCsrfToken = document.getElementById('login-csrf-token');
@@ -31,17 +31,28 @@
         
         if(loginCsrfToken != null){
             let token = loginCsrfToken.getAttribute('value');
+
+            let newHeader = new Headers({
+                'Accept': 'text/html, text/plain; charset=UTF-8',
+                'X-CSRF-Token': token
+            });
+
             let request = new Request('{{ url_for("login") }}', {
                 method: 'POST',
+                headers: newHeader,
                 body: new FormData(loginForm)
             });
 
             fetch(request)
             .then((response) => {
-                if(!response.redirected) {
-                    return response.text()
+                if(response.status === 400){
+                    // redirect to error 400 handler page
+                    throw Error(response.statusText);
                 }
-                if(response.status === 200 && response.redirected){
+                if(response.status === 401) {
+                    return response.text();
+                }
+                if(response.status === 200){
                     window.location.href = response.url;
                 }
             })
@@ -51,9 +62,9 @@
                     loginMessage.innerHTML = text;
                 }
             })
-            .catch((error) =>
+            .catch((error) => {
                 console.log(error)
-            );
+            });
         }
     });
 </script>

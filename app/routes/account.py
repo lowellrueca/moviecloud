@@ -65,11 +65,10 @@ async def login(request: Request):
     """
     page = template_env.get_template('login.html')
     context = {'request': request}
+    await AntiCsrfMiddleware.send_cookie_token(request, context)
 
     form = await request.form()
     if form is not None and len(form) != 0 and request.method == 'POST':
-        await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
-        
         email = form.get('email')
         password = form.get('password')
         hash_pwd = hash_builder.generate_hash(password)
@@ -82,10 +81,10 @@ async def login(request: Request):
             fetch_pwd = await database.fetch_one(query=query_pwd, values={'email': email})
 
             if not fetch_email:
-                return PlainTextResponse('Email has not been registered. Please Register')
+                return PlainTextResponse('Email has not been registered. Please Register', status_code=401)
 
             if hash_pwd != fetch_pwd['password']:
-                return PlainTextResponse('Password not matched')
+                return PlainTextResponse('Password not matched', status_code=401)
 
             else:
                 auth_key = AuthenticateMemberMiddleware.auth_key
@@ -98,7 +97,7 @@ async def login(request: Request):
                 # initialize the session to verify user authentication with AuthenticationMemberMIddleware
                 request.session[auth_key] = auth_token
 
-                # return redirect response and delete anti csrf cookie to reset with AntiCsrfMiddleware
+                # # return redirect response and delete anti csrf cookie to reset with AntiCsrfMiddleware
                 response: Response = RedirectResponse(request.url_for('home'))
                 response.delete_cookie(AntiCsrfMiddleware.anti_csrf_cookie)
                 return response

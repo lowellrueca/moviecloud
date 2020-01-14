@@ -9,7 +9,7 @@ from starlette.datastructures import FormData
 from starlette.exceptions import HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response, RedirectResponse, HTMLResponse
+from starlette.responses import Response, RedirectResponse, PlainTextResponse
 from app.db import database
 from app.extensions import HashBuilder
 from app.resources import template, template_env
@@ -22,9 +22,7 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
     """
 
     __hash_builder__ = HashBuilder()
-    anti_csrf_cookie = 'X-Request-Verification-Token'
-    anti_csrf_session = 'request_verification_session'
-    anti_csrf_field = 'anti-csrf-token'
+    anti_csrf_cookie = 'X-CSRF-Token'
 
     async def init_cookie(self, request: Request, response: Response):
         """
@@ -38,35 +36,21 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
         response: Response = await call_next(request)
         await self.init_cookie(request, response)
 
-        if self.anti_csrf_cookie in request.cookies \
-            and self.anti_csrf_session in request.session \
-            and request.method == 'POST':
-            
+        if self.anti_csrf_cookie in request.cookies and request.method == 'POST':
             cookie_token = request.cookies[self.anti_csrf_cookie]
-            session_token = request.session[self.anti_csrf_session]
-            if session_token != cookie_token:
-                html = f'<span>Please hit <a href="{request.url_for("login")}">Refresh</a> to reload the page</span>'
-                return HTMLResponse(html, status_code=403)
+            x_csrf_token = request.headers.get(self.anti_csrf_cookie.lower())
+
+            if x_csrf_token != cookie_token:
+                return Response(status_code=400)
 
         return response
 
     @staticmethod
-    async def validate_anti_csrf_token(request: Request, form: FormData):
-        """
-        This method sets the session which holds the token with the post request from form's hidden input field,
-        and validates within this class dispatch method.
-
-        Usage:
-        async def endpoint(request):
-            form = await request.form()
-            if len(form) != 0 and request.method is == 'POST:
-                await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
-
-        Parameters:
-        request -> The request object
-        form    -> The form data object
-        """
-        request.session[AntiCsrfMiddleware.anti_csrf_session] = form.get(AntiCsrfMiddleware.anti_csrf_field)
+    async def send_cookie_token(request: Request, context: dict):
+        if AntiCsrfMiddleware.anti_csrf_cookie in request.cookies:
+            cookie_token = request.cookies[AntiCsrfMiddleware.anti_csrf_cookie]
+            context['x_csrf_key'] = AntiCsrfMiddleware.anti_csrf_cookie.lower()
+            context['x_csrf_token'] = cookie_token
 
 
 class AuthenticateMemberMiddleware(AuthenticationBackend):
