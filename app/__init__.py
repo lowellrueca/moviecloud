@@ -28,7 +28,7 @@ from starlette.routing import Mount
 from app.routes import index, account
 
 # import exception handlers
-from app.exceptions import error_403, error_404, error_500
+from app.exceptions import error_400, error_403, error_404, error_500
 
 
 def init_app():
@@ -46,9 +46,10 @@ def init_app():
     ]
 
     exception_handlers = {
+        400: error_400,
         403: error_403,
         404: error_404,
-        405: error_500
+        500: error_500
     }
 
     app = App(
