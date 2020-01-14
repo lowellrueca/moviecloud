@@ -22,12 +22,10 @@
     
     loginForm.addEventListener('submit', () => { 
         event.preventDefault();
-
         let loginCsrfToken = document.getElementById('login-csrf-token');
 
         if(loginCsrfToken === null){
-            // TODO: redirect to error 400 handler page
-            location.reload();
+            throw new Error('Failed to send request');
         }
         
         if(loginCsrfToken != null){
@@ -47,14 +45,13 @@
             fetch(request)
             .then((response) => {
                 if(response.status === 400){
-                    // TODO: redirect to error 400 handler page
-                    throw Error(response.statusText);
+                    throw new Error(`${response.status}: ${response.statusText}`);
                 }
                 if(response.status === 401) {
                     return response.text();
                 }
                 if(response.status === 200){
-                    window.location.href = response.url;
+                    window.location.href = "{{ url_for('home') }}"
                 }
             })
             .then((text) => {
