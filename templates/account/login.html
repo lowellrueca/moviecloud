@@ -20,7 +20,7 @@
     let loginMessage = document.getElementById('login-message');
     loginMessage.style.display = 'none';
     
-    loginForm.addEventListener('submit', () => { 
+    loginForm.addEventListener('submit', (event) => { 
         event.preventDefault();
         let loginCsrfToken = document.getElementById('login-csrf-token');
 
