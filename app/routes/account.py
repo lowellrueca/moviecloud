@@ -97,8 +97,8 @@ async def login(request: Request):
                 # initialize the session to verify user authentication with AuthenticationMemberMIddleware
                 request.session[auth_key] = auth_token
 
-                # # return redirect response and delete anti csrf cookie to reset with AntiCsrfMiddleware
-                response: Response = RedirectResponse(request.url_for('home'))
+                # return redirect response and delete anti csrf cookie to reset with AntiCsrfMiddleware
+                response: Response = RedirectResponse(request.url_for('home'), status_code=200)
                 response.delete_cookie(AntiCsrfMiddleware.anti_csrf_cookie)
                 return response
 
