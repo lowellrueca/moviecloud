@@ -11,7 +11,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import Response, RedirectResponse, PlainTextResponse
 from app.db import database
-from app.extensions import HashBuilder
+from app.extensions import generate_token
 from app.resources import template, template_env
 
 
@@ -20,52 +20,60 @@ class AntiCsrfMiddleware(BaseHTTPMiddleware):
     This class initialize request verification token and validates posted token.
 
     """
-
-    __hash_builder__ = HashBuilder()
     anti_csrf_cookie = 'X-CSRF-Token'
 
-    async def init_cookie(self, request: Request, response: Response):
+    async def __init_cookie(self, request: Request, response: Response):
         """
         Initilizes cookie and sends the request verification token to the client
         """
-        token = self.__hash_builder__.generate_token()
-        if self.anti_csrf_cookie not in request.cookies:
-            response.set_cookie(self.anti_csrf_cookie, token, max_age=60000, expires=30, path=request.base_url)
+        cookie = self.anti_csrf_cookie
+        token = await generate_token()
+        
+        if cookie not in request.cookies:
+            response.set_cookie(cookie, token)
 
     async def dispatch(self, request: Request, call_next):
         response: Response = await call_next(request)
-        await self.init_cookie(request, response)
+        await self.__init_cookie(request, response)
+
+        cookie_token = ''
+        x_csrf_token = ''
 
         if self.anti_csrf_cookie in request.cookies and request.method == 'POST':
             cookie_token = request.cookies[self.anti_csrf_cookie]
             x_csrf_token = request.headers.get(self.anti_csrf_cookie.lower())
 
-            if x_csrf_token != cookie_token:
-                return Response(status_code=400)
+        if x_csrf_token != cookie_token:
+            return Response(status_code=400)
 
         return response
 
     @staticmethod
     async def send_cookie_token(request: Request, context: dict):
-        if AntiCsrfMiddleware.anti_csrf_cookie in request.cookies:
-            cookie_token = request.cookies[AntiCsrfMiddleware.anti_csrf_cookie]
-            context['x_csrf_key'] = AntiCsrfMiddleware.anti_csrf_cookie.lower()
-            context['x_csrf_token'] = cookie_token
+        x_csrf_cookie = AntiCsrfMiddleware.anti_csrf_cookie
+        x_csrf_token = request.cookies[x_csrf_cookie]
+        x_csrf_key = AntiCsrfMiddleware.anti_csrf_cookie.lower()
+
+        if x_csrf_cookie in request.cookies:
+            context['x_csrf_key'] = x_csrf_key
+            context['x_csrf_token'] = x_csrf_token
 
 
 class AuthenticateMemberMiddleware(AuthenticationBackend):
-    __hash_builder__ = HashBuilder()
     auth_key = 'auth_id'
     
     async def authenticate(self, request: Request):
         # validate x-csrf-token header with cookie token
-        if AntiCsrfMiddleware.anti_csrf_cookie in request.cookies \
-            and 'x-csrf-token' in request.headers:
+        x_csrf_cookie = AntiCsrfMiddleware.anti_csrf_cookie
+        x_csrf_header = AntiCsrfMiddleware.anti_csrf_cookie.lower()
 
-            cookie_token = request.cookies[AntiCsrfMiddleware.anti_csrf_cookie]
-            x_csrf_header = {k: v for k, v in request.headers.items() if k == AntiCsrfMiddleware.anti_csrf_cookie.lower()}
-            for x_csrf_key, x_csrf_token in x_csrf_header.items():
-                if x_csrf_token != cookie_token:
+        if x_csrf_cookie in request.cookies and x_csrf_header in request.headers:
+
+            _x_csrf_cookie = request.cookies[x_csrf_cookie]
+            _x_csrf_header = {k: v for k, v in request.headers.items() if k == x_csrf_header}
+            
+            for x_csrf_key, x_csrf_token in _x_csrf_header.items():
+                if x_csrf_token != _x_csrf_cookie:
                     raise AuthenticationError('Failed to send request due with tokens not matched')
         
         # return if auth_id not in request session
