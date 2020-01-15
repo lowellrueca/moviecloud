@@ -5,14 +5,11 @@ This module contains application middlewares
 from starlette.requests import Request
 from starlette.authentication import AuthenticationBackend, AuthenticationError, \
     SimpleUser, UnauthenticatedUser, AuthCredentials
-from starlette.datastructures import FormData
-from starlette.exceptions import HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import Response, RedirectResponse, PlainTextResponse
+from starlette.responses import Response, RedirectResponse
 from app.db import database
 from app.extensions import generate_token
-from app.resources import template, template_env
 
 
 class AntiCsrfMiddleware(BaseHTTPMiddleware):
