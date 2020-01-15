@@ -9,9 +9,9 @@ async def generate_hash(data: str):
     """
     Generates and return hashed strings
     """
-    if str_data == None: return
-        b = bytes(str_data, 'utf-8')
-        return blake2s(b).hexdigest()
+    if data == None: return
+    b = bytes(data, 'utf-8')
+    return blake2s(b).hexdigest()
 
 
 async def generate_token():
