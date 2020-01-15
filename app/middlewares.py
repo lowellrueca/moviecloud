@@ -67,14 +67,16 @@ class AuthenticateMemberMiddleware(AuthenticationBackend):
         x_csrf_cookie = AntiCsrfMiddleware.anti_csrf_cookie
         x_csrf_header = AntiCsrfMiddleware.anti_csrf_cookie.lower()
 
-        if x_csrf_cookie in request.cookies and x_csrf_header in request.headers:
+        _x_csrf_cookie = ''
+        _x_csrf_header = {}
 
+        if x_csrf_cookie in request.cookies and x_csrf_header in request.headers:
             _x_csrf_cookie = request.cookies[x_csrf_cookie]
             _x_csrf_header = {k: v for k, v in request.headers.items() if k == x_csrf_header}
             
-            for x_csrf_key, x_csrf_token in _x_csrf_header.items():
-                if x_csrf_token != _x_csrf_cookie:
-                    raise AuthenticationError('Failed to send request due with tokens not matched')
+        for x_csrf_key, x_csrf_token in _x_csrf_header.items():
+            if x_csrf_token != _x_csrf_cookie:
+                raise AuthenticationError('Failed to send request, tokens not matched')
         
         # return if auth_id not in request session
         if self.auth_key not in request.session: return
@@ -84,16 +86,19 @@ class AuthenticateMemberMiddleware(AuthenticationBackend):
         async with database.transaction():
             query = 'SELECT first_name, role FROM member WHERE auth_id = :auth_id'
             fetch = await database.fetch_one(query=query, values={'auth_id': auth_id})
+
+            first_name = ''
+            fetch_role = ''
             
             if fetch:
                 first_name = fetch['first_name']
-                role = fetch['role']
+                fetch_role = fetch['role']
 
-                if role != 'admin':
-                    return AuthCredentials(['authenticated']), SimpleUser(first_name)
+            if fetch_role != 'admin':
+                return AuthCredentials(['authenticated']), SimpleUser(first_name)
 
-                elif role == 'admin':
-                    return AuthCredentials(['authenticated', 'admin']), SimpleUser(first_name)
+            if fetch_role == 'admin':
+                return AuthCredentials(['authenticated', 'admin']), SimpleUser(first_name)
             
             else:
                 return None
