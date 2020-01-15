@@ -8,11 +8,9 @@ from starlette.requests import Request
 from starlette.responses import Response, RedirectResponse, PlainTextResponse, HTMLResponse
 from starlette.routing import Router, Route
 from app.db import database
-from app.extensions import HashBuilder
+from app.extensions import generate_hash, generate_token
 from app.middlewares import AntiCsrfMiddleware, AuthenticateMemberMiddleware
 from app.resources import template, template_env
-
-hash_builder = HashBuilder()
 
 
 async def register(request: Request):
@@ -37,7 +35,7 @@ async def register(request: Request):
             query = 'SELECT email FROM member WHERE email = :email'
             fetch = await database.fetch_one(query=query, values={'email': email})
     
-            hash_pwd = hash_builder.generate_hash(password)
+            hash_pwd = await generate_hash(password)
             insert = 'INSERT INTO member (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)'
             values = {'first_name': first_name,
                       'last_name': last_name,
@@ -71,7 +69,7 @@ async def login(request: Request):
     if form is not None and len(form) != 0 and request.method == 'POST':
         email = form.get('email')
         password = form.get('password')
-        hash_pwd = hash_builder.generate_hash(password)
+        hash_pwd = await generate_hash(password)
 
         async with database.transaction():
             query_email = 'SELECT email FROM member WHERE email = :email'
@@ -88,7 +86,7 @@ async def login(request: Request):
 
             else:
                 auth_key = AuthenticateMemberMiddleware.auth_key
-                auth_token = hash_builder.generate_token()
+                auth_token = await generate_token()
 
                 update = 'UPDATE member SET auth_id = :auth_id WHERE email = :email'
                 values = {auth_key: auth_token, 'email': email}
