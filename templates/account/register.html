@@ -30,7 +30,7 @@
         event.preventDefault();
 
         if(registerCsrfToken === null){
-            throw new Error('Falied to send request');
+            throw new Error('Failed to send request');
         }
 
         if(registerCsrfToken !== null){
@@ -63,8 +63,6 @@
             }
         })
         .then((data) => {
-            console.log(data);
-            
             if(data !== null){
                 registerMessage.style.display = 'inherit';
                 registerMessage.innerHTML = data;
