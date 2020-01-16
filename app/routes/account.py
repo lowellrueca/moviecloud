@@ -19,23 +19,22 @@ async def register(request: Request):
     """
     page = template_env.get_template('register.html')
     context = {'request': request}
+    await AntiCsrfMiddleware.send_cookie_token(request, context)
+
     form = await request.form()
-
     if form is not None and len(form) != 0 and request.method == 'POST':
-        await AntiCsrfMiddleware.validate_anti_csrf_token(request, form)
-
         # get the values from form fields
         first_name = form.get('firstName')
         last_name = form.get('lastName')
         email = form.get('email')
         password = form.get('password')
         confirm_password = form.get('confirmPassword')
+        hash_pwd = await generate_hash(password)
 
         async with database.transaction():
             query = 'SELECT email FROM member WHERE email = :email'
             fetch = await database.fetch_one(query=query, values={'email': email})
-    
-            hash_pwd = await generate_hash(password)
+
             insert = 'INSERT INTO member (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)'
             values = {'first_name': first_name,
                       'last_name': last_name,
@@ -44,15 +43,14 @@ async def register(request: Request):
                      }
 
             if fetch:
-                return PlainTextResponse('Email has been registered already')
+                return PlainTextResponse('Email has been registered already', status_code=401)
             
             elif password != confirm_password:
-                return PlainTextResponse('Password not matched')
+                return PlainTextResponse('Password not matched', status_code=401)
     
             else:
                 await database.execute(query=insert, values=values)
-                html = f"<span>You've been sucessfully registered {first_name}, you may now <a href={request.url_for('login')}>Login</a></span>"
-                return HTMLResponse(html)
+                return Response(status_code=200)
 
     return template.TemplateResponse(page, context=context)
 

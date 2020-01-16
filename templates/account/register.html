@@ -1,14 +1,9 @@
 {% set title = 'Register' %}
 {% extends 'base.html' %}
 {% block main %}
-<form id="register-form" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" action="{{ url_for('register') }}" enctype="application/x-www-form-urlencoded">
+<form id="register-form" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" enctype="application/x-www-form-urlencoded">
     <h3>Create an Account</h3>
-    {% if email_message %}
-        <small>{{ email_message }}</small>
-    {% endif %}
-    {% if password_message %}
-        <small>{{ password_message }}</small>
-    {% endif %}
+    <p id="register-message"></p>
     <hr>
     <input class="form-input-generic" type="text" placeholder="Your First Name*" name="firstName" required>
     <input class="form-input-generic" type="text" placeholder="Your Last Name*" name="lastName" required>
@@ -19,5 +14,67 @@
     <input class="form-input-generic" type="submit" value="Register">
     <small class="form-text">By clicking register, you agree on our <a href="#">terms and conditions.</a></small class="form-text">
     <p class="form-text">Already Have An Account? <a href="{{ url_for('login') }}">Login here</a></p>
+    <input id="register-csrf-token" type="hidden" name="{{ x_csrf_key }}" value="{{ x_csrf_token }}">
 </form>
 {% endblock main %}
+{% block script %}
+<script>
+    let registerForm = document.getElementById('register-form')
+    let registerMessage = document.getElementById('register-message');  
+    registerMessage.style.display = 'none';
+
+    let registerCsrfToken = document.getElementById('register-csrf-token');
+    let registerCsrfValue;
+
+    let formSubmitEvent = (event) => {
+        event.preventDefault();
+
+        if(registerCsrfToken === null){
+            throw new Error('Falied to send request');
+        }
+
+        if(registerCsrfToken !== null){
+            registerCsrfValue = registerCsrfToken.getAttribute('value');
+        }
+
+        let registerHeader = new Headers({
+            'Accept': 'text/html, text/plain; charset=UTF-8',
+            'X-CSRF-Token': registerCsrfValue
+        });
+
+        let registerRequest = new Request("{{ url_for('register') }}", {
+            method: 'POST',
+            headers: registerHeader,
+            body: new FormData(registerForm)
+        });
+
+        fetch(registerRequest)
+        .then((response) => {
+            if(response.status === 400){
+                console.log(`${response.status}: ${response.text}`);
+            }
+
+            if(response.status === 401){
+                return response.text();
+            }
+            if(response.status === 200){
+                window.location.href = "{{ url_for('login') }}";
+            }
+        })
+        .then((data) => {
+            console.log(data);
+            
+            if(data !== null){
+                registerMessage.style.display = 'inherit';
+                registerMessage.innerHTML = data;
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    }
+
+    registerForm.addEventListener('submit', formSubmitEvent);
+
+</script>
+{% endblock script %}
