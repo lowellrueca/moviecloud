@@ -51,12 +51,13 @@
         fetch(registerRequest)
         .then((response) => {
             if(response.status === 400){
-                console.log(`${response.status}: ${response.text}`);
+                throw new Error(`${response.status}: ${response.text}`);
             }
 
             if(response.status === 401){
                 return response.text();
             }
+
             if(response.status === 200){
                 window.location.href = "{{ url_for('login') }}";
             }
