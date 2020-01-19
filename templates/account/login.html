@@ -19,51 +19,55 @@
     let loginForm = document.getElementById('login-form');
     let loginMessage = document.getElementById('login-message');
     loginMessage.style.display = 'none';
-    
-    loginForm.addEventListener('submit', (event) => { 
+
+    let loginCsrfToken = document.getElementById('login-csrf-token');
+    let loginCsrfValue;
+
+    let formSubmitEvent = (event) => { 
         event.preventDefault();
-        let loginCsrfToken = document.getElementById('login-csrf-token');
 
         if(loginCsrfToken === null){
             throw new Error('Failed to send request');
         }
         
-        if(loginCsrfToken != null){
-            let token = loginCsrfToken.getAttribute('value');
-
-            let newHeader = new Headers({
-                'Accept': 'text/html, text/plain; charset=UTF-8',
-                'X-CSRF-Token': token
-            });
-
-            let request = new Request('{{ url_for("login") }}', {
-                method: 'POST',
-                headers: newHeader,
-                body: new FormData(loginForm)
-            });
-
-            fetch(request)
-            .then((response) => {
-                if(response.status === 400){
-                    throw new Error(`${response.status}: ${response.statusText}`);
-                }
-                if(response.status === 401) {
-                    return response.text();
-                }
-                if(response.status === 200){
-                    window.location.href = "{{ url_for('home') }}"
-                }
-            })
-            .then((text) => {
-                if(text != null){
-                    loginMessage.style.display = 'inherit';
-                    loginMessage.innerHTML = text;
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+        if(loginCsrfToken !== null){
+            loginCsrfValue = loginCsrfToken.getAttribute('value');
         }
-    });
+
+        let header = new Headers({
+            'Accept': 'text/html, text/plain; charset=UTF-8',
+            'X-CSRF-Token': token
+        });
+
+        let request = new Request('{{ url_for("login") }}', {
+            method: 'POST',
+            headers: header,
+            body: new FormData(loginForm)
+        });
+
+        fetch(request)
+        .then((response) => {
+            if(response.status === 400){
+                throw new Error(`${response.status}: ${response.statusText}`);
+            }
+            if(response.status === 401) {
+                return response.text();
+            }
+            if(response.status === 200){
+                window.location.href = "{{ url_for('home') }}"
+            }
+        })
+        .then((text) => {
+            if(text != null){
+                loginMessage.style.display = 'inherit';
+                loginMessage.innerHTML = text;
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+    };
+
+    loginForm.addEventListener('submit', formSubmitEvent);
 </script>
 {% endblock script %}

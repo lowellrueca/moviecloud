@@ -37,18 +37,18 @@
             registerCsrfValue = registerCsrfToken.getAttribute('value');
         }
 
-        let registerHeader = new Headers({
+        let header = new Headers({
             'Accept': 'text/html, text/plain; charset=UTF-8',
             'X-CSRF-Token': registerCsrfValue
         });
 
-        let registerRequest = new Request("{{ url_for('register') }}", {
+        let request = new Request("{{ url_for('register') }}", {
             method: 'POST',
-            headers: registerHeader,
+            headers: header,
             body: new FormData(registerForm)
         });
 
-        fetch(registerRequest)
+        fetch(request)
         .then((response) => {
             if(response.status === 400){
                 throw new Error(`${response.status}: ${response.text}`);
