@@ -1,20 +1,42 @@
-<div class="header-wrapper indent-wrapper flex-wrapper">
-    <div class="flex-wrapper-row flex-basis-wrapper-50">
+<div class="header-div wrap-width">
+    <div class="header-div__row">
         <a href="{{ url_for('home') }}"> <h2>MovieCloud</h2> </a>
     </div>
-    <div class="flex-wrapper-row flex-basis-wrapper-50">
-        <div class="flex-wrapper-row flex-wrapper-row-center">
-            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-            <span class="flex-wrapper-row flex-wrapper-row-center">
+
+    <div class="header-div__row header-div__row--end">
+        <div class="header-div-nav">
+            <a class="header-div-nav__link" href="{{ url_for('home') }}">Home</a>
+            <span class="header-div-nav__drop">
                 <span>Movies</span>
                 <span class="material-icons">arrow_drop_down</span>
             </span>
-            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-            <a class="nav-link-unique" href="{{ url_for('register') }}">Register</a>
-            <div class="flex-wrapper-row search-bar">
-                <input id="search-input" class="search" type="search" name="search" placeholder="Search...">
-                <span id="search-icon" class="search-icon material-icons">search</span>
-            </div class="wrap-flex wrap-row">
+            <a class="header-div-nav__link" href="{{ url_for('login') }}">Login</a>
+            <a class="header-div-nav__link" href="{{ url_for('register') }}">Register</a>
+        </div>
+        
+        <div class="header-div-search">
+            <input class="header-div-search__search" type="text" name="search" placeholder="Search..."><span class="material-icons">search</span>
+        </div>
+        <div class="header-div-icon-bar">
+            <span class="material-icons">menu</span>
         </div>
     </div>
 </div>
+<ul class="drop-nav wrap-width">
+    <li class="drop-nav__input">
+        <input class="drop-nav__input__search" type="text" placeholder="Search...">
+    </li>
+    <li class="drop-nav__li">
+        <a href="{{ url_for('home') }}">Home</a>
+    </li>
+    <li class="drop-nav__li-drop">
+        <span>Movies</span>
+        <span class="material-icons">arrow_drop_down</span>
+    </li>
+    <li class="drop-nav__li">
+        <a href="{{ url_for('login') }}">Login</a>
+    </li>
+    <li class="drop-nav__li">
+        <a href="{{ url_for('register') }}">Register</a>
+    </li>
+</ul>
