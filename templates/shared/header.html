@@ -6,10 +6,19 @@
     <div class="header-div__row header-div__row--end">
         <div class="header-div-nav">
             <a class="header-div-nav__link" href="{{ url_for('home') }}">Home</a>
-            <span class="header-div-nav__drop">
-                <span>Movies</span>
-                <span class="material-icons">arrow_drop_down</span>
-            </span>
+            
+            <div class="header-div-nav__drop">
+                <div class="header-div-nav__drop__div">
+                    <span>Movies</span>
+                    <span class="material-icons">arrow_drop_down</span>
+                </div>
+                <ul class="header-div-nav__drop__ul">
+                    <li><a href="">Latest</a></li>
+                    <li><a href="">Popular</a></li>
+                    <li><a href="">More</a></li>
+                </ul>
+            </div>
+            
             <a class="header-div-nav__link" href="{{ url_for('login') }}">Login</a>
             <a class="header-div-nav__link" href="{{ url_for('register') }}">Register</a>
         </div>
@@ -18,20 +27,31 @@
             <input class="header-div-search__search" type="text" name="search" placeholder="Search..."><span class="material-icons">search</span>
         </div>
         <div class="header-div-icon-bar">
-            <span class="material-icons">menu</span>
+            <span class="material-icons">search</span>
+            <span id="header-menu" class="material-icons">menu</span>
         </div>
     </div>
 </div>
-<ul class="drop-nav wrap-width">
-    <li class="drop-nav__input">
-        <input class="drop-nav__input__search" type="text" placeholder="Search...">
-    </li>
+<ul id="drop-nav" class="drop-nav
+           drop-nav--is-off
+           wrap-width">
+
     <li class="drop-nav__li">
         <a href="{{ url_for('home') }}">Home</a>
     </li>
     <li class="drop-nav__li-drop">
-        <span>Movies</span>
-        <span class="material-icons">arrow_drop_down</span>
+        <div class="drop-nav__li-drop__div">
+            <span id="drop-nav-movies-btn">Movies</span>
+            <span class="material-icons">arrow_drop_down</span>
+        </div>
+        <ul id="drop-nav-movies-category"
+            class="drop-nav__li-drop__ul
+                   drop-nav__li-drop__ul--is-off">
+  
+            <li><a href="">Latest</a></li>
+            <li><a href="">Popular</a></li>
+            <li><a href="">More</a></li>
+        </ul>
     </li>
     <li class="drop-nav__li">
         <a href="{{ url_for('login') }}">Login</a>

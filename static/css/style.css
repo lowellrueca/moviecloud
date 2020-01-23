@@ -106,6 +106,9 @@ header, footer{
     width: 80%;
     margin: auto;
 }
+.wrap-off{
+    display: none;
+}
 
 /*
 /*  header style definitions
@@ -134,7 +137,17 @@ header, footer{
 }
 .header-div-nav__drop{
     display: inherit;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.header-div-nav__drop__div{
+    display: inherit;
     align-items: flex-end;
+}
+.header-div-nav__drop__ul{
+    display: none;
+    flex-direction: inherit;
+    justify-content: inherit;
 }
 .header-div-search{
     display: none;
@@ -177,11 +190,21 @@ header, footer{
 .drop-nav__input{
     width: 100%;
 }
-.drop-nav__input__search{
-    width: inherit;
-    padding: 4px;
-}
 .drop-nav__li-drop{
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.drop-nav__li-drop__div{
+    display: inherit;
     align-items: flex-end;
+}
+.drop-nav__li-drop__ul{
+    display: inherit;
+    flex-direction: inherit;
+    justify-content: inherit;
+}
+.drop-nav--is-off,
+.drop-nav__li-drop__ul--is-off{
+    display: none;
 }
