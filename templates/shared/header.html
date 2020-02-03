@@ -8,11 +8,16 @@
             <a class="header-div-nav__link" href="{{ url_for('home') }}">Home</a>
             
             <div class="header-div-nav__drop">
-                <div class="header-div-nav__drop__div">
-                    <span>Movies</span>
+                <div id="movie-drop-btn"
+                     class="header-div-nav__drop__div">
+                    
+                     <span>Movies</span>
                     <span class="material-icons">arrow_drop_down</span>
                 </div>
-                <ul class="header-div-nav__drop__ul">
+                <ul id="movie-drop-menu"
+                    class="header-div-nav__drop__ul
+                           header-div-nav__drop__ul--is-off">
+                    
                     <li><a href="">Latest</a></li>
                     <li><a href="">Popular</a></li>
                     <li><a href="">More</a></li>
@@ -32,7 +37,8 @@
         </div>
     </div>
 </div>
-<ul id="drop-nav" class="drop-nav
+<ul id="drop-nav"
+    class="drop-nav
            drop-nav--is-off
            wrap-width">
 

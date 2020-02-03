@@ -106,9 +106,6 @@ header, footer{
     width: 80%;
     margin: auto;
 }
-.wrap-off{
-    display: none;
-}
 
 /*
 /*  header style definitions
@@ -145,9 +142,12 @@ header, footer{
     align-items: flex-end;
 }
 .header-div-nav__drop__ul{
-    display: none;
+    display: inherit;
     flex-direction: inherit;
     justify-content: inherit;
+}
+.header-div-nav__drop__ul--is-off{
+    display: none;
 }
 .header-div-search{
     display: none;
