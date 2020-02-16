@@ -2,17 +2,17 @@
 {% extends 'base.html' %}
 {% block main %}
 <div class="main">
-    <form id="register-form" class="flex-wrapper flex-wrapper-col form-wrapper" method="POST" enctype="application/x-www-form-urlencoded">
+    <form id="register-form" class="form form-width-state" method="POST" enctype="application/x-www-form-urlencoded">
         <h3>Create an Account</h3>
         <p id="register-message"></p>
-        <hr>
-        <input class="form-input-generic" type="text" placeholder="Your First Name*" name="firstName" required>
-        <input class="form-input-generic" type="text" placeholder="Your Last Name*" name="lastName" required>
-        <input class="form-input-generic" type="email" placeholder="Your Email*" name="email" required>
-        <input class="form-input-generic" type="password" minlength="8" placeholder="Enter Your Password*" name="password" required>
-        <input class="form-input-generic" type="password" minlength="8" placeholder="Confirm Your Password*" name="confirmPassword" required>
-        <hr>
-        <input class="form-input-generic" type="submit" value="Register">
+
+        <input class="input-text-form" type="text" placeholder="Your First Name*" name="firstName" required>
+        <input class="input-text-form" type="text" placeholder="Your Last Name*" name="lastName" required>
+        <input class="input-text-form" type="email" placeholder="Your Email*" name="email" required>
+        <input class="input-text-form" type="password" minlength="8" placeholder="Enter Your Password*" name="password" required>
+        <input class="input-text-form" type="password" minlength="8" placeholder="Confirm Your Password*" name="confirmPassword" required>
+
+        <input class="input-submit-form" type="submit" value="Register">
         <small class="form-text">By clicking register, you agree on our <a href="#">terms and conditions.</a></small class="form-text">
         <p class="form-text">Already Have An Account? <a href="{{ url_for('login') }}">Login here</a></p>
         <input id="register-csrf-token" type="hidden" name="{{ x_csrf_key }}" value="{{ x_csrf_token }}">
