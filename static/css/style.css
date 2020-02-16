@@ -58,7 +58,17 @@ ul {
     list-style: none;
 }
 
-a, p, span {
+a {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+p {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+span {
     font-size: .875rem;
     line-height: 1.75rem;
 }
@@ -70,6 +80,13 @@ body, html {
 /* 
 /* base style definition
 */
+body, header, main, footer{
+    width: 100%;
+}
+header, footer{
+    height: 100px;
+}
+
 header {
     position: fixed;
     top: 0%;
@@ -92,119 +109,195 @@ hr{
     margin: 24px 0px;
 }
 
-body, header, main, footer{
-    width: 100%;
-}
-header, footer{
-    height: 100px;
+/*
+/* header style definitions
+*/
+header {
+    border: 1px solid grey;
 }
 
-/*
-/* wrap style definitions
-*/
-.wrap-width{
+/* common display flex definitions */
+.header,
+.header-start,
+.header-end,
+.header-nav-drop-btn,
+.header-nav-drop-menu-is-flex,
+.header-icon-bar {
+    display: flex;
+}
+
+/* common flex-basis 50 definitions */
+.header-start,
+.header-end {
+    flex-basis: 50%;
+}
+
+/* common display none definitions */
+.header-nav-is-none,
+.header-nav-drop-menu-is-none,
+.header-search-bar-is-none {
+    display: none;
+}
+
+/* unique property definitions */
+.header {
+    /* style wrapper for header's inner div */
+    align-items: center;
+    transform: translateY(50%);
     width: 80%;
     margin: auto;
 }
 
-/*
-/*  header style definitions
-*/
-.header-div{
-    display: flex;
+.header-end {
     align-items: baseline;
-
-    position: relative;
-    top: 25%;
-}
-.header-div__row{
-    flex-basis: 50%;
-}
-.header-div__row--end{
-    display: inherit;
-    align-items: inherit;
     justify-content: flex-end;
 }
-.header-div-nav{
-    display: none;
-    align-items: inherit;
-}
-.header-div-nav__link{
-    margin: 0px 12px;
-}
-.header-div-nav__drop{
-    display: inherit;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.header-div-nav__drop__div{
-    display: inherit;
-    align-items: flex-end;
-}
-.header-div-nav__drop__ul{
-    display: inherit;
-    flex-direction: inherit;
-    justify-content: inherit;
-}
-.header-div-nav__drop__ul--is-off{
-    display: none;
-}
-.header-div-search{
-    display: none;
-    align-items: center;
 
+.header-nav {
+    align-items: center;
+}
+
+.header-nav-drop-menu {
+    flex-direction: column;
+    position: absolute;
+}
+
+.header-search-bar {
+    align-items: center;
+    padding: 4px 8px;
+    border: 1px solid grey;
+    border-radius: 17px;
+}
+
+.header-search-bar-add-disp {
+    /* this style adds with javascript headerIconSearch event */
+    display: flex;
+    
+    top: 4px;
+    left: 0;
+    padding: 8px 12px;
+    position: fixed;
+
+    background-color: white;
+    border-radius: 21px;
+}
+
+.header-icon-search {
+    border: 1px solid grey;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.header-icon-menu {
     border: 1px solid grey;
     border-radius: 4px;
-    padding: 4px 8px;
+    padding: 4px;
+    margin-left: 8px;
 }
-.header-div-search__search{
-    border: none;
-}
-.header-div-icon-bar{
-    display: inherit;
-    position: relative;
-    transform: translateY(7px);
-}
-@media screen and (min-width: 768px)
+
+@media only screen and (min-width: 768px)
 {
-    .header-div-nav,
-    .header-div-search{
-        display: inherit;
+    .header-nav-is-flex,
+    .header-search-bar-is-flex {
+        display: flex;
     }
-    .header-div-icon-bar{
+
+    .header-is-baseline {
+        align-items: baseline;
+    }
+
+    .header-icon-bar-is-none {
         display: none;
     }
 }
 
 /*
-/*  drop navigation style definitions
+/* header drop menu style defintions
 */
-.drop-nav{
-    position: absolute;
-    top: 100px;
-    left: 10%;
-}
-.drop-nav__li{
-    padding: 4px 0px;
-}
-.drop-nav__input{
-    width: 100%;
-}
-.drop-nav__li-drop{
+/* common flex display definitions */
+.header-drop-menu,
+.header-drop-menu-row,
+.header-drop-menu-col {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
 }
-.drop-nav__li-drop__div{
-    display: inherit;
-    align-items: flex-end;
+
+.header-drop-menu-row {
+    align-items: center;
 }
-.drop-nav__li-drop__ul{
-    display: inherit;
-    flex-direction: inherit;
-    justify-content: inherit;
-}
-.drop-nav--is-off,
-.drop-nav__li-drop__ul--is-off{
+
+.header-drop-menu {
     display: none;
+    flex-direction: column;
+    width: 50%;
+    position: absolute;
+    transform: translateY(50px);
+    padding: 8px 10%;
+    border: 1px solid grey;
+}
+
+.header-drop-menu-clear-icon  {
+    position: absolute;
+    right: 0;
+    margin-right: 10%;
+}
+
+.header-drop-menu-row {
+    flex-direction: row;
+}
+
+.header-drop-menu-col {
+    flex-direction: column;
+}
+
+.header-drop-menu-col-is-none {
+    display: none
+}
+
+/*
+/* search bar style definitions
+*/
+.search-bar {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    left: 10%;
+    padding: 4px 8px;
+    transform: translateY(-50%);
+
+    background: white;
+    border: 1px solid grey;
+    border-radius: 19px;
+}
+
+.search-bar-toggle-none {
+    display: none;
+}
+
+.search-bar-icon {
+    font-size: 18px;
+}
+
+@media only screen and (min-width: 768px)
+{
+    .search-bar-is-none{
+        display: none
+    }
+}
+
+/*
+/* navigation link style definitions
+*/
+.nav-link-row {
+    margin: 0 12px;
+}
+
+.nav-link-col {
+    margin: 4px 0;
+}
+
+/*
+/* input style definitions
+*/
+.input-text-search {
+    border: none;    
 }
