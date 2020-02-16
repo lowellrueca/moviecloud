@@ -285,6 +285,42 @@ header {
 }
 
 /*
+/*  main style definition
+*/
+.main {
+    /* style wrapper for main inner inner div*/
+    width: 80%;
+    margin: auto;
+}
+
+/*
+/* form style definitions
+*/
+.form {
+    /* style wrapper for forms */
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (min-width: 640px)
+{
+    .form-width-state {
+        width: 60%;
+        margin: auto;
+        padding: 24px;
+        border: 1px solid grey;
+        border-radius: 12px;
+    }
+}
+
+@media only screen and (min-width: 900px)
+{
+    .form-width-state {
+        width: 40%;
+    }
+}
+
+/*
 /* navigation link style definitions
 */
 .nav-link-row {
@@ -300,4 +336,16 @@ header {
 */
 .input-text-search {
     border: none;    
+}
+
+.input-text-form {
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid grey;
+    padding: 4px 8px;
+    margin-top: 12px;
+}
+
+.input-submit-form {
+    margin-top: 30px;
 }
