@@ -1,10 +1,14 @@
+# python
 .appenv
 .env
-.vscode
 __pycache__
 alembic.ini
-moviecloudproj.code-workspace
+
+# project files
+moviecloud.sublime-project
+moviecloud.sublime-workspace
+
+# others
 scratch.html
 scratch.py
 scratch.txt
-lib
