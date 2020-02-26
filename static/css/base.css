@@ -22,6 +22,7 @@ body .body-wrapper
 main 
 {
 	height: calc(100vh - 100px);
+	padding-top: 10%;
 }
 
 footer 
@@ -30,8 +31,10 @@ footer
 	margin-top: 0px;
 }
 
-main,
-footer
+@media only screen and (min-width: 414px)
 {
-	display: none;
+	main
+    {
+        padding-top: 40px;
+    }
 }

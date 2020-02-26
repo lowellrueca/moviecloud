@@ -1,19 +1,19 @@
 {% set title = 'Register' %}
 {% extends 'base.html' %}
 {% block main %}
-<div class="main">
+<div class="body-wrapper">
     <form id="register-form" class="form form-width-state" method="POST" enctype="application/x-www-form-urlencoded">
         <h3>Create an Account</h3>
         <p id="register-message"></p>
 
-        <input class="input-text-form" type="text" placeholder="Your First Name*" name="firstName" required>
-        <input class="input-text-form" type="text" placeholder="Your Last Name*" name="lastName" required>
-        <input class="input-text-form" type="email" placeholder="Your Email*" name="email" required>
-        <input class="input-text-form" type="password" minlength="8" placeholder="Enter Your Password*" name="password" required>
-        <input class="input-text-form" type="password" minlength="8" placeholder="Confirm Your Password*" name="confirmPassword" required>
+        <input type="text" placeholder="Your First Name*" name="firstName" required>
+        <input type="text" placeholder="Your Last Name*" name="lastName" required>
+        <input type="email" placeholder="Your Email*" name="email" required>
+        <input type="password" minlength="8" placeholder="Enter Your Password*" name="password" required>
+        <input type="password" minlength="8" placeholder="Confirm Your Password*" name="confirmPassword" required>
 
-        <input class="input-submit-form" type="submit" value="Register">
-        <small class="form-text">By clicking register, you agree on our <a href="#">terms and conditions.</a></small class="form-text">
+        <input type="submit" value="Register">
+        <small>By clicking register, you agree on our <a href="#">terms and conditions.</a></small class="form-text">
         <p class="form-text">Already Have An Account? <a href="{{ url_for('login') }}">Login here</a></p>
         <input id="register-csrf-token" type="hidden" name="{{ x_csrf_key }}" value="{{ x_csrf_token }}">
     </form>

@@ -56,7 +56,9 @@ h6 {
     line-height: 1.34rem;
 }
 
-input[type=text] {
+input[type=text],
+input[type=email],
+input[type=password] {
     border: none;
 }
 
