@@ -1,0 +1,51 @@
+/*	
+/*	name: menu;
+/*	description: style definition for menu html
+*/
+.menu,
+.menu-drop-down-items
+{
+	display: none;
+}
+
+.menu-top-row,
+.menu-drop-down-btn,
+.menu-bot-row 
+{
+	display: flex;
+}
+
+.menu-top-row,
+.menu-drop-down-btn 
+{
+	flex-direction: row;
+	align-items: center;
+}
+
+.menu,
+.menu-drop-down-items,
+.menu-bot-row 
+{
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.menu 
+{
+	position: fixed;
+	top: 100px;
+	width: 180px;
+	padding: 0 5% 0 10%;
+	border: 1px solid grey;
+}
+
+.menu-top-row
+{
+	justify-content: space-between;
+}
+
+.menu-display-flex-toggle
+{
+	/* this class to be use in script for toggling display in menu html */
+	display: flex;
+}

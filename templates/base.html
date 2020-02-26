@@ -14,6 +14,7 @@
     
     <header>
         {% include 'header.html' %}
+        {% include 'menu.html' %}
     </header>
     
     <main>
@@ -25,9 +26,8 @@
     <footer>
         <h2>Footer</h2>
     </footer>
+
     {% include 'script.html' %}
-    {% block script %}
-    
-    {% endblock script %}
+    {% block script %} {% endblock script %}
 </body>
 </html>

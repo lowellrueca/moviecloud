@@ -1,0 +1,114 @@
+/*	
+/*	name: header;
+/*	description: style definition for header html
+*/
+
+/** this section defines header layout style **/
+.header,
+.header-start,
+.header-end 
+{ 
+	display: flex; 
+	align-items: center; 
+}
+
+.header-start,
+.header-end
+{
+	flex-basis: 50%;
+}
+
+.header 
+{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);	
+}
+
+.header-end
+{
+	justify-content: flex-end;
+}
+
+/** this section defines header's component style **/
+.header-nav-bar,
+.header-drop-dn-items,
+.header-search-bar 
+{
+	display: none;
+}
+
+.header-nav-drop,
+.header-icon-bar
+{
+	display: flex;
+}
+
+.header-nav-drop,
+.header-drop-dn-items 
+{
+	flex-direction: column;
+	justify-items: flex-start;
+}
+
+.header-drop-dn-items 
+{
+	position: absolute;
+	transform: translateY(30px);
+}
+
+.header-search-bar 
+{
+	padding: 4px 12px;
+	border: 1px solid grey;
+	border-radius: 18px;
+}
+
+.header-icon-bar
+{
+	justify-content: space-between;
+	width: 56px;
+}
+
+.header-search-box 
+{
+	display: none;
+	align-items: center;
+	padding: 4px 12px;
+
+	position: absolute;
+	top: 0%;
+	left: 10%;
+	transform: translateY(calc(50% + 12px));
+
+	border: 1px solid grey;
+	border-radius: 19px;
+	background: #fff;
+}
+
+.header-display-flex-toggle
+{
+	/* use this in script for toggling display */
+	display: flex;
+}
+
+@media only screen and (min-width: 768px)
+{
+	.header,
+	.header-start,
+	.header-end 
+	{
+		align-items: baseline;
+	}
+	
+	.header-nav-bar,
+	.header-search-bar 
+	{
+		display: flex; 
+	}
+	
+	.header-icon-bar 
+	{
+		display: none;
+	}
+}

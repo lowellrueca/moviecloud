@@ -1,0 +1,75 @@
+/*
+/* default style definitions
+*/
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    font-size: .875rem;
+    line-height: 1.75rem;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+    font-size: inherit;
+}
+
+input {
+    font-size: .75rem;
+    line-height: 1.5rem;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 4rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    line-height: 3rem;
+}
+
+h3 {
+    font-size: 1.17rem;
+    line-height: 2.34rem;
+}
+
+h4 {
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+h5 {
+    font-size: .83rem;
+    line-height: 1.66rem;
+}
+
+h6 {
+    font-size: .67rem;
+    line-height: 1.34rem;
+}
+
+input[type=text] {
+    border: none;
+}
+
+p {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+span {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+ul {
+    list-style: none;
+}

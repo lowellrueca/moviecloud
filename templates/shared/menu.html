@@ -1,0 +1,22 @@
+<div id="menu" class="menu">
+    <div class="menu-top-row">
+        <a href="{{ url_for('home') }}">Home</a>
+        <span id="menu-clear-btn" class="menu-top-row-icon material-icons">clear</span>
+    </div>
+
+    <div id="menu-drop-dn-btn" class="menu-drop-down-btn">
+        <span >Movies</span>
+        <span id="menu-drop-dn-btn-icon" class="material-icons">arrow_drop_down</span>
+    </div>
+
+    <div id="menu-drop-dn-items" class="menu-drop-down-items">
+        <a href="">Latest</a>
+        <a href="">Popular</a>
+        <a href="">More</a>
+    </div>
+
+    <div class="menu-bot-row">
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+    </div>
+</div>

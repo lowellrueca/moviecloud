@@ -1,96 +1,47 @@
-<div class="header
-            header-is-baseline">
-
+<div class="body-wrapper header">
     <div class="header-start">
-        <a href="{{ url_for('home') }}"> <h2>MovieCloud</h2> </a>
+        <a class="brand-logo" href="{{ url_for('home') }}">MovieCloud</a>
     </div>
 
     <div class="header-end">
-
-        <div class="header-nav
-                    header-nav-is-flex
-                    header-nav-is-none">
-            <a class="nav-link-row" href="{{ url_for('home') }}">Home</a>
+        <div class="header-nav-bar">
+            <a class="nav-bar-link" href="{{ url_for('home') }}">Home</a>
             
             <div class="header-nav-drop">
-
-                <div id="header-nav-drop-btn"
-                     class="header-nav-drop-btn">
-                        
+                <div id="header-drop-dn-btn" class="drop-dn-btn">
                     <span>Movies</span>
-                    <span id="header-nav-drop-btn-icon" class="material-icons">arrow_drop_down</span>
+                    <span id="header-drop-dn-btn-icon" class="material-icons">arrow_drop_down</span>
                 </div>
 
-                <div id="header-nav-drop-menu" 
-                     class="header-nav-drop-menu
-                            header-nav-drop-menu-is-flex
-                            header-nav-drop-menu-is-none">
-
-                    <a class="nav-link-col" href="">Latest</a>
-                    <a class="nav-link-col" href="">Popular</a>
-                    <a class="nav-link-col" href="">More</a>
+                <div id="header-drop-dn-items" class="header-drop-dn-items">
+                    <a class="drop-dn-item" href="">Latest</a>
+                    <a class="drop-dn-item" href="">Popular</a>
+                    <a class="drop-dn-item" href="">More</a>
                 </div>
             </div>
             
-            <a class="nav-link-row" href="{{ url_for('login') }}">Login</a>
-            <a class="nav-link-row" href="{{ url_for('register') }}">Register</a>
+            <a class="nav-bar-link" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-bar-link" href="{{ url_for('register') }}">Register</a>
         </div>
         
-        <div class="header-search-bar
-                    header-search-bar-is-flex
-                    header-search-bar-is-none">
-
-            <input class="input-text-search" type="text" name="search" placeholder="Search...">
+        <div class="header-search-bar">
+            <input class="search-input" type="text" name="search" placeholder="Search...">
             <span class="material-icons">search</span>
         </div>
 
-        <div class="header-icon-bar
-                    header-icon-bar-is-none">
-
-            <span id="header-icon-search" class="header-icon-search material-icons">search</span>
-            <span id="header-icon-menu" class="header-icon-menu material-icons">menu</span>
+        <div class="header-icon-bar">
+            <span id="search-btn" class="material-icons">search</span>
+            <span id="menu-btn" class="material-icons">menu</span>
         </div>
     </div>
 </div>
 
-<div id="header-drop-menu" class="header-drop-menu">
-
-    <div class="header-drop-menu-row">
-        <a class="nav-link-col" href="{{ url_for('home') }}">Home</a>
-        <span id="header-drop-menu-clear-icon" 
-              class="header-drop-menu-clear-icon
-                     material-icons">
-              clear
-        </span>
-    </div>
-
-    <div class="header-drop-menu-row">
-        <span id="header-drop-nav-btn">Movies</span>
-        <span id="header-drop-nav-icon" class="material-icons">arrow_drop_down</span>
-    </div>
-
-    <div id="header-drop-menu-links" 
-         class="header-drop-menu-col
-                header-drop-menu-col-is-none">
-        
-        <a class="nav-link-col" href="">Latest</a>
-        <a class="nav-link-col" href="">Popular</a>
-        <a class="nav-link-col" href="">More</a>
-    </div>
-
-    <div class="header-drop-menu-col">
-        <a class="nav-link-col" href="{{ url_for('login') }}">Login</a>
-        <a class="nav-link-col" href="{{ url_for('register') }}">Register</a>
-    </div>
-</div>
-
-<div id="search-bar" class="search-bar search-bar-is-none search-bar-toggle-none">
-
-    <span class="search-bar-icon material-icons">search</span>
+<div id="header-search-box" class="header-search-box">
+    <span class="material-icons">search</span>
 
     <span>
-        <input class="input-text-search" type="text" name="search" placeholder="Search...">
+        <input class="search-input" type="text" name="search" placeholder="Search...">
     </span>
     
-    <span class="search-bar-icon material-icons">clear</span>
+    <span class="material-icons">clear</span>
 </div>

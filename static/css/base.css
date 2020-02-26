@@ -1,0 +1,37 @@
+body, 
+header,
+main, 
+footer 
+{
+	width: 100%;
+}
+
+header, 
+footer 
+{
+	height: 100px;
+	border: 1px solid grey;
+}
+
+body .body-wrapper
+{
+	width: 80%;
+	margin: auto;
+}
+
+main 
+{
+	height: calc(100vh - 100px);
+}
+
+footer 
+{
+	position: relative;
+	margin-top: 0px;
+}
+
+main,
+footer
+{
+	display: none;
+}

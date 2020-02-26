@@ -38,77 +38,56 @@ const headerCommonEventHandler = () => {
         });
     }
 
-    let resetDisplayState = (dynElemId, addClass) => {
+    let resetDisplayState = (dynElemId, removeClass) => {
         let dynElem = document.getElementById(dynElemId);
         this.addEventListener('resize',  () => {
-            dynElem.classList.add(addClass);
+            dynElem.classList.remove(removeClass);
         });
     }
 
     // header's navigation bar events
-    toggleClassBtn('header-nav-drop-btn', 'header-nav-drop-menu', 'header-nav-drop-menu-is-none');
-    toggleIconBtn('header-nav-drop-btn', 'header-nav-drop-btn-icon', 'arrow_drop_down', 'arrow_drop_up');
-    resetIconBtn('header-nav-drop-btn-icon', 'arrow_drop_down');
-    resetDisplayState('header-nav-drop-menu', 'header-nav-drop-menu-is-none');
+    toggleClassBtn('header-drop-dn-btn', 'header-drop-dn-items', 'header-display-flex-toggle');
+    toggleIconBtn('header-drop-dn-btn', 'header-drop-dn-btn-icon', 'arrow_drop_down', 'arrow_drop_up');
+    resetIconBtn('header-drop-dn-btn-icon', 'arrow_drop_down');
+    resetDisplayState('header-drop-dn-items', 'header-display-flex-toggle');
 
     // drop navigation events
-    toggleClassBtn('header-drop-nav-btn', 'header-drop-menu-links', 'header-drop-menu-col-is-none');
-    toggleIconBtn('header-drop-nav-btn', 'header-drop-nav-icon', 'arrow_drop_down', 'arrow_drop_down');
-    resetIconBtn('header-drop-nav-icon', 'arrow_drop_down');
-    resetDisplayState('header-drop-menu-links', 'header-drop-menu-col-is-none');
+    toggleClassBtn('menu-btn', 'menu', 'menu-display-flex-toggle');
+    toggleClassBtn('menu-drop-dn-btn', 'menu-drop-dn-items', 'menu-display-flex-toggle');
+    toggleIconBtn('menu-drop-dn-btn', 'menu-drop-dn-btn-icon', 'arrow_drop_down', 'arrow_drop_down');
+    resetIconBtn('menu-drop-dn-btn-icon', 'arrow_drop_down');
+    resetDisplayState('menu-drop-dn-items', 'menu-display-flex-toggle');
+    resetDisplayState('menu', 'menu-display-flex-toggle');
 
     // header icon search click event
-    resetIconBtn('header-icon-search', 'search');
+    toggleClassBtn('search-btn', 'header-search-box', 'header-display-flex-toggle');
+    resetDisplayState('header-search-box', 'header-display-flex-toggle');
+
 }
 
-// header unique events handler
 const headerUniqueEventHandler = () => {
-    // header icon search click event
-    let headerIconSearch = document.getElementById('header-icon-search');
-    let searchBar = document.getElementById('search-bar');
-    
-    headerIconSearch.addEventListener('click', () => {
-        switch(headerIconSearch.innerHTML) {
-            case 'search':
-                headerIconSearch.innerHTML = 'clear';
+    // menu click event
+    let menuClearBtn = document.getElementById("menu-clear-btn");
+    let menu = document.getElementById('menu');
+    let menuDropDnIcon = document.getElementById('menu-drop-dn-btn-icon');
+    let menuDropDnitems = document.getElementById('menu-drop-dn-items');
+    menuClearBtn.addEventListener('click', () => {
+        menu.classList.remove('menu-display-flex-toggle');
+        menuDropDnitems.classList.remove('menu-display-flex-toggle');
+
+        let arrowIconUp = 'arrow_drop_up';
+        let arrowIconDn = 'arrow_drop_down';
+        switch(menuDropDnIcon.innerHTML){
+            case arrowIconDn:
+                menuDropDnIcon.innerHTML = arrowIconUp;
+                break;
+            
+            case arrowIconUp:
+                menuDropDnIcon.innerHTML = arrowIconDn;
                 break;
 
-            case 'clear':
-                headerIconSearch.innerHTML = 'search';
-
             default:
-                headerIconSearch.innerHTML = 'search'
-        }
-
-        searchBar.classList.toggle('search-bar-toggle-none');
-    });
-
-    // header icon menu click event
-    let headerIconMenu = document.getElementById('header-icon-menu');
-    let headerDropMenu = document.getElementById('header-drop-menu');
-
-    headerIconMenu.addEventListener('click', () => {
-        headerDropMenu.style.display = 'flex';
-    });
-
-    // drop menu clear icon click event
-    let clearIcon = document.getElementById('header-drop-menu-clear-icon');
-    let headerDropNavIcon = document.getElementById('header-drop-nav-icon');
-    let headerDropMenuLinks = document.getElementById('header-drop-menu-links');
-
-    clearIcon.addEventListener('click', () => {
-        headerDropMenu.style.display = 'none';
-        headerDropNavIcon.innerHTML = 'arrow_drop_down';
-        headerDropMenuLinks.classList.add('header-drop-menu-col-is-none');
-
-    });
-    
-    // window resize event definition for header elements
-    this.addEventListener('resize', () => {
-        headerDropMenu.style.display = 'none';
-
-        if(this.innerWidth < 768){
-            searchBar.classList.add('search-bar-toggle-none');
+                menuDropDnIcon.innerHTML = arrowIconDn;
         }
     });
 }

@@ -1,0 +1,17 @@
+.brand-logo 
+{
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.drop-dn-btn 
+{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.nav-bar-link 
+{
+	margin: 0px 12px;
+}
