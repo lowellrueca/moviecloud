@@ -5,8 +5,8 @@ __pycache__
 alembic.ini
 
 # project files
-moviecloud.sublime-project
-moviecloud.sublime-workspace
+.vscode
+moviecloud.code-workspace
 
 # others
 scratch.html
