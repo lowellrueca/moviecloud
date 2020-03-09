@@ -1,41 +1,41 @@
-<div class="body-wrapper header">
+<div class="header header-is-align-items-baseline">
     <div class="header-start">
-        <a class="brand-logo" href="{{ url_for('home') }}">MovieCloud</a>
+        <h1>
+            <a class="logo" href="{{ url_for('home') }}">MovieCloud</a>
+        </h1>
     </div>
 
     <div class="header-end">
-        <div class="header-nav-bar">
-            <a class="nav-bar-link" href="{{ url_for('home') }}">Home</a>
-            
-            <div class="header-nav-drop">
-                <div id="header-drop-dn-btn" class="drop-dn-btn">
+        <nav class="nav nav-row-control nav-is-display">
+            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+            <nav class="nav">
+                <button id="movie-btn1" class="btn btn-movie">
                     <span>Movies</span>
-                    <span id="header-drop-dn-btn-icon" class="material-icons">arrow_drop_down</span>
-                </div>
+                    <span class="material-icons">arrow_drop_down</span>
+                </button>
+                <nav class="nav nav-drop nav-drop-control">
+                    <a class="nav-link" href="">Latest</a>
+                    <a class="nav-link" href="">Popular</a>
+                    <a class="nav-link" href="">More</a>
+                </nav>
+            </nav>
+            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+        </nav>
 
-                <div id="header-drop-dn-items" class="header-drop-dn-items">
-                    <a class="drop-dn-item" href="">Latest</a>
-                    <a class="drop-dn-item" href="">Popular</a>
-                    <a class="drop-dn-item" href="">More</a>
-                </div>
+        <div class="header-end-div">
+            <div class="search search-is-display">
+                <input type="text" name="search" placeholder="Search...">
+                <span class="material-icons">search</span>
             </div>
-            
-            <a class="nav-bar-link" href="{{ url_for('login') }}">Login</a>
-            <a class="nav-bar-link" href="{{ url_for('register') }}">Register</a>
-        </div>
-        
-        <div class="header-search-bar">
-            <input class="search-input" type="text" name="search" placeholder="Search...">
-            <span class="material-icons">search</span>
-        </div>
-
-        <div class="header-icon-bar">
-            <span id="search-btn" class="material-icons">search</span>
-            <span id="menu-btn" class="material-icons">menu</span>
-        </div>
+            <button class="btn btn-menu btn-menu-is-display">
+                <span class="material-icons">menu</span>
+            </button>
+        </div>        
     </div>
 </div>
 
+<!--TODO: do css rules
 <div id="header-search-box" class="header-search-box">
     <span class="material-icons">search</span>
 
@@ -45,3 +45,4 @@
     
     <span class="material-icons">clear</span>
 </div>
+-->
