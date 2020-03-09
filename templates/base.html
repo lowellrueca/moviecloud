@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta id="meta-token" content="{{ request.cookies['X-CSRF-Token'] }}">
-    <link rel="icon" href="{{ url_for('static', path='/favicon.ico')}}" type="image/x-icon">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
-    <title>MovieCloud | {{ title }}</title>
-</head>
-<body>
-    
-    <header>
-        {% include 'header.html' %}
-        {% include 'menu.html' %}
-    </header>
-    
-    <main>
-        {% block main %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta id="meta-token" content="{{ request.cookies['X-CSRF-Token'] }}">
         
-        {% endblock main %}
-    </main>
+        <link rel="icon" href="{{ url_for('static', path='/favicon.ico')}}" type="image/x-icon">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+        
+        <title>MovieCloud | {{ title }}</title>
+    </head>
+    
+    <body>
+        <header>
+            {% include 'header.html' %}
+            {% include 'menu.html' %}
+        </header>
 
-    <footer>
-        <div class="body-wrapper">
-            <h2>Footer</h2>
-        </div>
-    </footer>
+        <main>
+            <div>
+                {% block main %}
 
-    {% include 'script.html' %}
-    {% block script %} {% endblock script %}
-</body>
+                {% endblock main %}
+            </div>
+        </main>
+
+        <footer>
+            <div>
+                <h2>Footer</h2>
+            </div>
+        </footer>
+
+        {% include 'script.html' %}
+        {% block script %} {% endblock script %}
+    </body>
 </html>
