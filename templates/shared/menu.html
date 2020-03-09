@@ -1,22 +1,22 @@
-<div id="menu" class="menu">
-    <div class="menu-top-row">
-        <a href="{{ url_for('home') }}">Home</a>
+<div id="menu" class="nav nav-menu nav-menu-control js-nav-menu-is-hidden">
+    <div class="nav-menu-top-row-control">
+        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
         <span id="menu-clear-btn" class="menu-top-row-icon material-icons">clear</span>
     </div>
 
-    <div id="menu-drop-dn-btn" class="menu-drop-down-btn">
+    <button id="menu-drop-dn-btn" class="btn btn-movie">
         <span >Movies</span>
         <span id="menu-drop-dn-btn-icon" class="material-icons">arrow_drop_down</span>
-    </div>
+    </button>
 
-    <div id="menu-drop-dn-items" class="menu-drop-down-items">
-        <a href="">Latest</a>
-        <a href="">Popular</a>
-        <a href="">More</a>
-    </div>
+    <nav id="menu-drop-dn-items" class="nav nav-menu">
+        <a class="nav-link" href="">Latest</a>
+        <a class="nav-link" href="">Popular</a>
+        <a class="nav-link" href="">More</a>
+    </nav>
 
-    <div class="menu-bot-row">
-        <a href="{{ url_for('login') }}">Login</a>
-        <a href="{{ url_for('register') }}">Register</a>
-    </div>
+    <nav class="nav nav-menu">
+        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+    </nav>
 </div>
