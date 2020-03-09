@@ -1,6 +1,280 @@
-@import "default.css";
-@import "base.css";
-@import "header.css";
-@import "menu.css";
-@import "component.css";
-@import "form.css";
+/*
+    ---------------------------------------------
+    section: reset
+    description: rule definition for reset styles
+    ---------------------------------------------
+*/
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    font-size: .875rem;
+    line-height: 1.75rem;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button {
+    font-size: .875rem;
+}
+input {
+    font-size: .75rem;
+    line-height: 1.5rem;
+}
+
+h1 {
+    font-size: 2rem;
+    line-height: 4rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    line-height: 3rem;
+}
+
+h3 {
+    font-size: 1.17rem;
+    line-height: 2.34rem;
+}
+
+h4 {
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+h5 {
+    font-size: .83rem;
+    line-height: 1.66rem;
+}
+
+h6 {
+    font-size: .67rem;
+    line-height: 1.34rem;
+}
+
+p {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+span {
+    font-size: .875rem;
+    line-height: 1.75rem;
+}
+
+ul {
+    list-style: none;
+}
+
+/*
+    --------------------------------------------
+    section: body
+    description: rule definition for body layout
+    --------------------------------------------
+*/
+html, 
+body,
+header,
+main,
+footer {
+    width: 100%;
+}
+
+header > div,
+main > div,
+footer > div {
+    width: 80%;
+    margin: auto;
+}
+
+header,
+footer {
+    height: 100px;
+    border: 1px solid grey;
+}
+
+main {
+    height: calc(100vh - 100px);
+}
+
+footer {
+    margin-top: 100px;
+}
+
+/*
+    ----------------------------------------------
+    section: header
+    description: rule definition for header layout
+    ----------------------------------------------
+*/
+.header,
+.header-start,
+.header-end {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.header-start,
+.header-end {
+    flex-basis: 50%;
+}
+
+.header {
+    position: relative;
+    top: calc(50% - 18px);
+}
+
+.header-start > h1 {
+    display: inherit;
+    align-self: stretch;
+}
+
+.header-end {
+    justify-content: flex-end;
+}
+
+.header-end-div {
+    display: inherit;
+    align-items: center ;
+}
+
+.header-is-align-items-baseline {
+    align-items: center;
+}
+
+@media only screen and (min-width: 768px)
+{
+    .header-is-align-items-baseline {
+        align-items: baseline;
+    }
+}
+
+/*
+    -----------------------------------------------------
+    section: navigation
+    description: rule definition for navigation and links
+    -----------------------------------------------------
+*/
+.nav {
+    display: flex;
+}
+
+.nav-row-control > .nav-link {
+    margin: 0 8px;
+}
+
+.nav-drop,
+.nav-menu {
+    flex-direction: column;
+}
+
+.nav-drop .nav-link {
+    margin: 4px 0;
+}
+
+.nav-drop-control {
+    display: none;
+    position: absolute;
+    transform: translateY(calc(.875rem * 2));
+}
+
+.nav-menu {
+    width: 50%;
+    background: #fff;
+}
+
+.nav-menu .nav-link {
+    margin: 4px 0;
+}
+
+.nav-menu-control {
+    position: fixed;
+    top: 0;
+    padding: 36px 12px 12px 10%;
+}
+
+.nav-menu-top-row-control {
+    display: inherit;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.nav-is-display {
+    display: none;
+}
+
+/* style to toggle with javascript */
+.js-nav-menu-is-hidden {
+    display: none;
+}
+
+@media only screen and (min-width: 768px)
+{
+    .nav-is-display,
+    #movie-btn1:hover + nav {
+        display: flex;
+    }
+}
+
+/*
+    ------------------------------------------
+    section: component
+    description: rule definition for component
+    ------------------------------------------
+*/
+.btn {
+    font-family: inherit;
+    background: none;
+    border: none;
+}
+
+.btn-movie {
+    display: flex;
+}
+
+.btn-menu {
+    display: flex;
+    padding: 4px;
+    border: 1px solid grey;
+    border-radius: 4px;
+}
+
+.logo {
+    font-size: 1.125rem;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+
+    padding: 4px 8px;
+    border: 1px solid grey;
+    border-radius: 18px;
+}
+
+.search > input {
+    border: none;
+}
+
+.search-is-display {
+    display: none;
+}
+
+@media only screen and (min-width: 768px)
+{
+    .search-is-display {
+        display: flex;
+    }
+    
+    .btn-menu-is-display {
+        display: none;
+    }
+}
